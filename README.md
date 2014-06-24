@@ -22,7 +22,6 @@ response = app.list(filter_name='demo')
 
 or you can set it as the environment variable `NEWRELIC_API_KEY`
 
-
 ## Documentation
 
 All documentation can be found in `/doc/`
