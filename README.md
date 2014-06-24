@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ambitioninc/newrelic-api.svg?branch=master)](https://travis-ci.org/ambitioninc/newrelic-api)
 New Relic Api
 =============
 newrelic-api is a package for easily interacting with New Relic's API in a
