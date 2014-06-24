@@ -25,7 +25,7 @@ or you can set it as the environment variable `NEWRELIC_API_KEY`
 
 ## Documentation
 
-All documentation can be found in `/doc/`
+All documentation can be found at http://newrelic-api.readthedocs.org
 
 ## Author
 [Micah Hausler](mailto:micah.hausler@ambition.com)
