@@ -1,0 +1,11 @@
+=================
+newrelic-api v0.1
+=================
+
+
+This is the initial release of newrelic-api.
+
+Current API resouces include
+* Applications
+* Servers
+* Users
