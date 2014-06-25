@@ -1,0 +1,10 @@
+language: python
+python:
+  - '2.7'
+install:
+  - pip install -q coverage flake8
+  - python setup.py install
+before_script:
+  - flake8 . --max-line-length=120 --max-complexity=10 --exclude='doc,venv,env,*.egg'
+script:
+  - nosetests --cover-branches --with-coverage --cover-min-percentage=100 --cover-package=newrelic_api

@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ambitioninc/newrelic-api.svg?branch=master)](https://travis-ci.org/ambitioninc/newrelic-api.svg?branch=master)
 New Relic Api
 =============
 newrelic-api is a package for easily interacting with New Relic's API in a
@@ -22,10 +23,9 @@ response = app.list(filter_name='demo')
 
 or you can set it as the environment variable `NEWRELIC_API_KEY`
 
-
 ## Documentation
 
-All documentation can be found in `/doc/`
+All documentation can be found at http://newrelic-api.readthedocs.org
 
 ## Author
 [Micah Hausler](mailto:micah.hausler@ambition.com)
