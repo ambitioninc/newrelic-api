@@ -1,4 +1,5 @@
 class ConfigurationException(Exception):
     """
-    There was an error in the configuration
+    An exception for Configuration errors
     """
+    message = 'There was an error in the configuration'

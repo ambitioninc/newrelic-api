@@ -7,20 +7,6 @@ class Users(Resource):
     """
     An interface for interacting with the NewRelic user API.
     """
-
-    def __init__(self, *args, **kwargs):
-        """
-        :type api_key: str
-        :param api_key: The API key. If no key is passed, the environment
-            variable NEWRELIC_API_KEY is used. If the variable is not present,
-            a ConfigurationException is raised.
-        """
-        super(Users, self).__init__(*args, **kwargs)
-        self.headers = {
-            'Content-type': 'application/json',
-            'X-Api-Key': self.api_key,
-        }
-
     def list(self, filter_email=None, filter_ids=None, page=None):
         """
         This API endpoint returns a paginated list of the Users

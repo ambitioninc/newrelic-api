@@ -42,9 +42,20 @@ you can pass the API key as an argument in the interface constructor::
 Currently Supported Resources
 -----------------------------
 
+* Alert Policies (:doc:`API Reference <ref/alert_policies>`)
 * Applications (:doc:`API Reference <ref/applications>`)
+* Notification Channels (:doc:`API Reference <ref/notification_channels>`)
 * Servers (:doc:`API Reference <ref/servers>`)
 * Users (:doc:`API Reference <ref/users>`)
+
+Resources that need to be built out
+-----------------------------------
+
+* Application Hosts
+* Application Instances
+* Key Transactions
+* Plugins
+* Components
 
 Internal resources
 ------------------
