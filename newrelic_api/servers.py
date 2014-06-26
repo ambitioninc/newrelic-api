@@ -25,16 +25,16 @@ class Servers(Resource):
         :rtype: dict
         :return: The JSON response of the API
         """
+        filters = [
+            'filter[name]={0}'.format(filter_name) if filter_name else None,
+            'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
+            'page={0}'.format(page) if page else None
+        ]
+
         response = requests.get(
             url='{0}servers.json'.format(self.URL),
             headers=self.headers,
-            params={
-                'filter': {
-                    'name': filter_name,
-                    'ids': filter_ids,
-                },
-                'page': page
-            }
+            params=self.build_param_string(filters)
         )
         return response.json()
 
@@ -120,13 +120,15 @@ class Servers(Resource):
         :rtype: dict
         :return: The JSON response of the API
         """
+        params = [
+            'name={0}'.format(name) if name else None,
+            'page={0}'.format(page) if page else None
+        ]
+
         response = requests.get(
             url='{0}servers/{1}/metrics.json'.format(self.URL, id),
             headers=self.headers,
-            params={
-                'name': name,
-                'page': page
-            }
+            params=params
         )
         return response.json()
 
@@ -166,15 +168,19 @@ class Servers(Resource):
         :rtype: dict
         :return: The JSON response of the API
         """
+        params = [
+            'from={0}'.format(from_dt) if from_dt else None,
+            'to={0}'.format(to_dt) if to_dt else None,
+            'summarize=true' if summarize else None
+        ]
+
+        params += ['names[]={0}'.format(name) for name in names]
+        if values:
+            params += ['values[]={0}'.format(value) for value in values]
+
         response = requests.get(
             url='{0}servers/{1}/metrics/data.json'.format(self.URL, id),
             headers=self.headers,
-            params={
-                'names': names,
-                'values': values,
-                'from': from_dt,
-                'to': to_dt,
-                'summarize': summarize
-            }
+            params=self.build_param_string(params)
         )
         return response.json()

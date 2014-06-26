@@ -1,4 +1,5 @@
 import os
+from datetime import time
 from unittest import TestCase
 
 from mock import patch
@@ -45,3 +46,24 @@ class ResourceTests(TestCase):
             Resource()
 
         os_environ_mock.assert_called_once_with('NEWRELIC_API_KEY')
+
+    def test_build_param_string(self):
+        """
+        Tests .build_param_string() returns the correct string
+        """
+        resource = Resource(api_key='123')
+
+        test_params = [
+            False,
+            'filter[name]=dev',
+            None,
+            'page=1',
+            0,
+            [],
+            {},
+            time(0)
+        ]
+
+        param_str = resource.build_param_string(test_params)
+
+        self.assertEqual(param_str, 'filter[name]=dev&page=1')

@@ -29,3 +29,6 @@ venv/
 
 # Documentation artifacts
 docs/_build/
+
+# IPython Notebook
+.ipynb_checkpoints/

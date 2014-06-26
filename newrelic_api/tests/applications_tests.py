@@ -249,14 +249,27 @@ class NRApplicationsTests(TestCase):
         self.assertIsInstance(response, dict)
 
     @patch.object(requests, 'get')
-    def test_metric_data(self, mock_get):
+    def test_metric_data_without_values(self, mock_get):
         """
-        Test .metric_data()
+        Test .metric_data() without a values param
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.metric_data_response
         mock_get.return_value = mock_response
 
         response = self.app.metric_data(id=1234567, names=['CPU/User Time'], summarize=True)
+
+        self.assertIsInstance(response, dict)
+
+    @patch.object(requests, 'get')
+    def test_metric_data_with_values(self, mock_get):
+        """
+        Test .metric_data() with a values param
+        """
+        mock_response = Mock(name='response')
+        mock_response.json.return_value = self.metric_data_response
+        mock_get.return_value = mock_response
+
+        response = self.app.metric_data(id=1234567, names=['CPU/User Time'], values=['percent'], summarize=True)
 
         self.assertIsInstance(response, dict)

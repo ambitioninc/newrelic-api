@@ -18,9 +18,9 @@ def get_version():
 
 
 setup(
-    name='newrelic_api',
+    name='newrelic-api',
     version=get_version(),
-    description='A python interface to the NewRelic API',
+    description='A python interface to the New Relic API',
     long_description=open('README.md').read(),
     url='https://github.com/ambitioninc/newrelic-api',
     author='Micah Hausler',
