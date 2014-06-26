@@ -26,9 +26,7 @@ class Resource(object):
     def build_param_string(self, params):
         """
         This is a simple helper method to build a parameter string. It joins
-        all list elements that evaluate to True with an ampersand, '&'
-
-        example:
+        all list elements that evaluate to True with an ampersand, '&'::
 
             > parameters = Resource().build_param_string(['filter[name]=dev', None, 'page=1'])
             > print parameters

@@ -13,6 +13,7 @@ concise, pythonic way. For full documentation on each endpoint, please see
 
     ref/alert_policies
     ref/applications
+    ref/base
     ref/notification_channels
     ref/servers
     ref/users
@@ -73,6 +74,7 @@ Internal resources
 ==================
 
 * Exceptions (:doc:`API Reference <ref/exceptions>`)
+* Resource (:doc:`API Reference <ref/base>`)
 
 
 Release Notes
