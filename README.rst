@@ -25,7 +25,7 @@ If you want to install it from source, grab the git repository and run setup.py:
 Documentation
 =============
 
-All documentation can be found at http://newrelic-api.readthedocs.org
+All documentation can be found at http://new-relic-api.readthedocs.org
 
 Author
 ======
