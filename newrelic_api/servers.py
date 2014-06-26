@@ -128,7 +128,7 @@ class Servers(Resource):
         response = requests.get(
             url='{0}servers/{1}/metrics.json'.format(self.URL, id),
             headers=self.headers,
-            params=params
+            params=self.build_param_string(params)
         )
         return response.json()
 
