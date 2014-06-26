@@ -37,9 +37,9 @@ setup(
         'requests>=2.0.0'
     ],
     tests_require=[
-        'coverage',
-        'flake8',
-        'mock',
+        'coverage>=3.7.1',
+        'flake8>=2.2.0',
+        'mock>=1.0.1',
         'nose>=1.3.0',
     ],
     include_package_data=True,

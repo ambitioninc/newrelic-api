@@ -28,4 +28,4 @@ venv/
 .idea/
 
 # Documentation artifacts
-doc/_build/
+docs/_build/

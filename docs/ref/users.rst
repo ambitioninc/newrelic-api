@@ -1,8 +1,8 @@
 .. _ref-users:
 
-============
-Applications
-============
+=====
+Users
+=====
 
 newrelic_api.users
 ------------------
