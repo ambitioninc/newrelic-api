@@ -18,9 +18,9 @@ def get_version():
 
 
 setup(
-    name='newrelic_api',
+    name='newrelic-api',
     version=get_version(),
-    description='A python interface to the NewRelic API',
+    description='A python interface to the New Relic API',
     long_description=open('README.md').read(),
     url='https://github.com/ambitioninc/newrelic-api',
     author='Micah Hausler',
@@ -37,9 +37,9 @@ setup(
         'requests>=2.0.0'
     ],
     tests_require=[
-        'coverage',
-        'flake8',
-        'mock',
+        'coverage>=3.7.1',
+        'flake8>=2.2.0',
+        'mock>=1.0.1',
         'nose>=1.3.0',
     ],
     include_package_data=True,

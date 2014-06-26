@@ -33,20 +33,20 @@ class NRNotificationChannelsTests(TestCase):
     @patch.object(requests, 'get')
     def test_list(self, mock_get):
         """
-        Test .list()
+        Test notification channels .list()
         """
-        self.channels.list(filter_type=['user'])
+        self.channels.list(filter_type=['user'], page=0)
 
         mock_get.assert_called_once_with(
             url='https://api.newrelic.com/v2/notification_channels.json',
             headers=self.channels.headers,
-            params={'filter': {'type': ['user'], 'ids': None}, 'page': None}
+            params='filter[type]=user'
         )
 
     @patch.object(requests, 'get')
     def test_show(self, mock_get):
         """
-        Test .show()
+        Test notification channels .show()
         """
         self.channels.show(id=11122)
 

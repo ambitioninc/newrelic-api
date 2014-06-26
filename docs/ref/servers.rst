@@ -1,8 +1,8 @@
 .. _ref-servers:
 
-============
-Applications
-============
+=======
+Servers
+=======
 
 newrelic_api.servers
 --------------------

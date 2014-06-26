@@ -7,8 +7,21 @@ concise, pythonic way. For full documentation on each endpoint, please see
 
 .. _New Relic's API explorer: https://rpm.newrelic.com/api/explore/
 
-Getting Started
----------------
+
+.. toctree::
+    :maxdepth: 1
+
+    ref/alert_policies
+    ref/applications
+    ref/base
+    ref/notification_channels
+    ref/servers
+    ref/users
+    ref/exceptions
+    contributing
+
+Installation
+============
 
 To install, install via pip or easy_install::
 
@@ -23,7 +36,7 @@ If you want to install it from source, grab the git repository and run setup.py:
  $ python setup.py install
 
 Configuration
--------------
+=============
 
 You will need your New Relic API key for authenticating your requests. The
 New Relic documentation for accessing this can be found `here`_.
@@ -40,7 +53,7 @@ you can pass the API key as an argument in the interface constructor::
 
 
 Currently Supported Resources
------------------------------
+=============================
 
 * Alert Policies (:doc:`API Reference <ref/alert_policies>`)
 * Applications (:doc:`API Reference <ref/applications>`)
@@ -49,7 +62,7 @@ Currently Supported Resources
 * Users (:doc:`API Reference <ref/users>`)
 
 Resources that need to be built out
------------------------------------
+===================================
 
 * Application Hosts
 * Application Instances
@@ -58,27 +71,27 @@ Resources that need to be built out
 * Components
 
 Internal resources
-------------------
+==================
 
 * Exceptions (:doc:`API Reference <ref/exceptions>`)
+* Resource (:doc:`API Reference <ref/base>`)
+
 
 Release Notes
--------------
+=============
 
 .. toctree::
-   :titlesonly:
 
    releasenotes/v0.1
 
 Contributing
-------------
+============
 
 Please see :doc:`Contributing <contributing>`
 
 Indices and tables
-------------------
+==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

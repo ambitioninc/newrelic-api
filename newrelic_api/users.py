@@ -25,16 +25,16 @@ class Users(Resource):
         :rtype: dict
         :return: The JSON response of the API
         """
+        filters = [
+            'filter[email]={0}'.format(filter_email) if filter_email else None,
+            'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
+            'page={0}'.format(page) if page else None
+        ]
+
         response = requests.get(
             url='{0}users.json'.format(self.URL),
             headers=self.headers,
-            params={
-                'filter': {
-                    'email': filter_email,
-                    'ids': filter_ids,
-                },
-                'page': page
-            }
+            params=self.build_param_string(filters)
         )
         return response.json()
 
