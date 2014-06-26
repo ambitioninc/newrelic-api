@@ -21,7 +21,7 @@ setup(
     name='newrelic-api',
     version=get_version(),
     description='A python interface to the New Relic API',
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     url='https://github.com/ambitioninc/newrelic-api',
     author='Micah Hausler',
     author_email='opensource@ambition.com',
