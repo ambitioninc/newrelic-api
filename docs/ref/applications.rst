@@ -1,6 +1,5 @@
 .. _ref-applications:
 
-============
 Applications
 ============
 
@@ -13,4 +12,3 @@ newrelic_api.applications
     :undoc-members:
 
     .. automethod:: __init__
-

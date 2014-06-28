@@ -1,6 +1,5 @@
 .. _ref-exceptions:
 
-==========
 Exceptions
 ==========
 

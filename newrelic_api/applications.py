@@ -31,6 +31,52 @@ class Applications(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "applications": [
+                    {
+                        "id": "integer",
+                        "name": "string",
+                        "language": "string",
+                        "health_status": "string",
+                        "reporting": "boolean",
+                        "last_reported_at": "time",
+                        "application_summary": {
+                            "response_time": "float",
+                            "throughput": "float",
+                            "error_rate": "float",
+                            "apdex_target": "float",
+                            "apdex_score": "float"
+                        },
+                        "end_user_summary": {
+                            "response_time": "float",
+                            "throughput": "float",
+                            "apdex_target": "float",
+                            "apdex_score": "float"
+                        },
+                        "settings": {
+                            "app_apdex_threshold": "float",
+                            "end_user_apdex_threshold": "float",
+                            "enable_real_user_monitoring": "boolean",
+                            "use_server_side_config": "boolean"
+                        },
+                        "links": {
+                            "servers": [
+                                "integer"
+                            ],
+                            "application_hosts": [
+                                "integer"
+                            ],
+                            "application_instances": [
+                                "integer"
+                            ]
+                        }
+                    }
+                ]
+            }
+
         """
         filters = [
             'filter[name]={0}'.format(filter_name) if filter_name else None,
@@ -54,7 +100,51 @@ class Applications(Resource):
         :param id: Application ID
 
         :rtype: dict
-        :return: The JSON response of the API
+        :return: The JSON response of the API.
+
+        ::
+
+                {
+                    "application": {
+                        "id": "integer",
+                        "name": "string",
+                        "language": "string",
+                        "health_status": "string",
+                        "reporting": "boolean",
+                        "last_reported_at": "time",
+                        "application_summary": {
+                            "response_time": "float",
+                            "throughput": "float",
+                            "error_rate": "float",
+                            "apdex_target": "float",
+                            "apdex_score": "float"
+                        },
+                        "end_user_summary": {
+                            "response_time": "float",
+                            "throughput": "float",
+                            "apdex_target": "float",
+                            "apdex_score": "float"
+                        },
+                        "settings": {
+                            "app_apdex_threshold": "float",
+                            "end_user_apdex_threshold": "float",
+                            "enable_real_user_monitoring": "boolean",
+                            "use_server_side_config": "boolean"
+                        },
+                        "links": {
+                            "servers": [
+                                "integer"
+                            ],
+                            "application_hosts": [
+                                "integer"
+                            ],
+                            "application_instances": [
+                                "integer"
+                            ]
+                        }
+                    }
+                }
+
         """
         response = requests.get(
             url='{0}applications/{1}.json'.format(self.URL, id),
@@ -86,6 +176,50 @@ class Applications(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "application": {
+                    "id": "integer",
+                    "name": "string",
+                    "language": "string",
+                    "health_status": "string",
+                    "reporting": "boolean",
+                    "last_reported_at": "time",
+                    "application_summary": {
+                        "response_time": "float",
+                        "throughput": "float",
+                        "error_rate": "float",
+                        "apdex_target": "float",
+                        "apdex_score": "float"
+                    },
+                    "end_user_summary": {
+                        "response_time": "float",
+                        "throughput": "float",
+                        "apdex_target": "float",
+                        "apdex_score": "float"
+                    },
+                    "settings": {
+                        "app_apdex_threshold": "float",
+                        "end_user_apdex_threshold": "float",
+                        "enable_real_user_monitoring": "boolean",
+                        "use_server_side_config": "boolean"
+                    },
+                    "links": {
+                        "servers": [
+                            "integer"
+                        ],
+                        "application_hosts": [
+                            "integer"
+                        ],
+                        "application_instances": [
+                            "integer"
+                        ]
+                    }
+                }
+            }
+
         """
         nr_data = self.show(id)['application']
 
@@ -126,6 +260,50 @@ class Applications(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "application": {
+                    "id": "integer",
+                    "name": "string",
+                    "language": "string",
+                    "health_status": "string",
+                    "reporting": "boolean",
+                    "last_reported_at": "time",
+                    "application_summary": {
+                        "response_time": "float",
+                        "throughput": "float",
+                        "error_rate": "float",
+                        "apdex_target": "float",
+                        "apdex_score": "float"
+                    },
+                    "end_user_summary": {
+                        "response_time": "float",
+                        "throughput": "float",
+                        "apdex_target": "float",
+                        "apdex_score": "float"
+                    },
+                    "settings": {
+                        "app_apdex_threshold": "float",
+                        "end_user_apdex_threshold": "float",
+                        "enable_real_user_monitoring": "boolean",
+                        "use_server_side_config": "boolean"
+                    },
+                    "links": {
+                        "servers": [
+                            "integer"
+                        ],
+                        "application_hosts": [
+                            "integer"
+                        ],
+                        "application_instances": [
+                            "integer"
+                        ]
+                    }
+                }
+            }
+
         """
         response = requests.delete(
             url='{0}applications/{1}.json'.format(self.URL, id),
@@ -148,6 +326,18 @@ class Applications(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "metric": {
+                    "name": "string",
+                    "values": [
+                        "string"
+                    ]
+                }
+            }
+
         """
         params = [
             'name={0}'.format(name) if name else None,
@@ -196,8 +386,29 @@ class Applications(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
-        """
 
+        ::
+
+            {
+                "metric_data": {
+                    "from": "time",
+                    "to": "time",
+                    "metrics": [
+                        {
+                            "name": "string",
+                            "timeslices": [
+                                {
+                                    "from": "time",
+                                    "to": "time",
+                                    "values": "hash"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+
+        """
         params = [
             'from={0}'.format(from_dt) if from_dt else None,
             'to={0}'.format(to_dt) if to_dt else None,

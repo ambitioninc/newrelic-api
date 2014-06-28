@@ -1,6 +1,5 @@
 .. _ref-users:
 
-=====
 Users
 =====
 
@@ -13,4 +12,3 @@ newrelic_api.users
     :undoc-members:
 
     .. automethod:: __init__
-
