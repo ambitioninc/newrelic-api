@@ -49,7 +49,6 @@ class NRNotificationChannelsTests(TestCase):
         Test notification channels .show()
         """
         self.channels.show(id=11122)
-
         mock_get.assert_called_once_with(
             url='https://api.newrelic.com/v2/notification_channels/11122.json',
             headers=self.channels.headers,

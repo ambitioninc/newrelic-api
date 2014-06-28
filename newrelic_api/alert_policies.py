@@ -34,6 +34,44 @@ class AlertPolicies(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "alert_policies": [
+                    {
+                        "id": "integer",
+                        "type": "string",
+                        "name": "string",
+                        "enabled": "boolean",
+                        "conditions": [
+                            {
+                                "id": "integer",
+                                "type": "string",
+                                "severity": "string",
+                                "threshold": "float",
+                                "trigger_minutes": "integer",
+                                "enabled": "boolean"
+                            }
+                        ],
+                        "links": {
+                            "notification_channels": [
+                                "integer"
+                            ],
+                            "applications": [
+                                "integer"
+                            ],
+                            "key_transactions": [
+                                "integer"
+                            ],
+                            "servers": [
+                                "integer"
+                            ]
+                        }
+                    }
+                ]
+            }
+
         """
         filters = [
             'filter[name]={0}'.format(filter_name) if filter_name else None,
@@ -59,6 +97,42 @@ class AlertPolicies(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "alert_policy": {
+                    "id": "integer",
+                    "type": "string",
+                    "name": "string",
+                    "enabled": "boolean",
+                    "conditions": [
+                        {
+                            "id": "integer",
+                            "type": "string",
+                            "severity": "string",
+                            "threshold": "float",
+                            "trigger_minutes": "integer",
+                            "enabled": "boolean"
+                        }
+                    ],
+                    "links": {
+                        "notification_channels": [
+                            "integer"
+                        ],
+                        "applications": [
+                            "integer"
+                        ],
+                        "key_transactions": [
+                            "integer"
+                        ],
+                        "servers": [
+                            "integer"
+                        ]
+                    }
+                }
+            }
+
         """
         response = requests.get(
             url='{0}alert_policies/{1}.json'.format(self.URL, id),
@@ -115,6 +189,42 @@ class AlertPolicies(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "alert_policy": {
+                    "id": "integer",
+                    "type": "string",
+                    "name": "string",
+                    "enabled": "boolean",
+                    "conditions": [
+                        {
+                            "id": "integer",
+                            "type": "string",
+                            "severity": "string",
+                            "threshold": "float",
+                            "trigger_minutes": "integer",
+                            "enabled": "boolean"
+                        }
+                    ],
+                    "links": {
+                        "notification_channels": [
+                            "integer"
+                        ],
+                        "applications": [
+                            "integer"
+                        ],
+                        "key_transactions": [
+                            "integer"
+                        ],
+                        "servers": [
+                            "integer"
+                        ]
+                    }
+                }
+            }
+
         """
         response = requests.put(
             url='{0}alert_policies/{1}.json'.format(self.URL, id),

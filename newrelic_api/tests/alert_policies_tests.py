@@ -114,7 +114,7 @@ class NRAlertPoliciesTests(TestCase):
     @patch.object(requests, 'get')
     def test_list_success(self, mock_get):
         """
-        Test .list()
+        Test alert policies .list()
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.policies_list_response
@@ -128,7 +128,7 @@ class NRAlertPoliciesTests(TestCase):
     @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
         """
-        Test .list() failure case
+        Test alert policies .list() failure case
         """
         mock_response = Mock(name='response')
         mock_response.json.side_effect = ValueError('No JSON object could be decoded')
@@ -141,7 +141,7 @@ class NRAlertPoliciesTests(TestCase):
     @patch.object(requests, 'get')
     def test_show_success(self, mock_get):
         """
-        Test .show() success
+        Test alert policies .show() success
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.policy_show_response
@@ -155,7 +155,7 @@ class NRAlertPoliciesTests(TestCase):
     @patch.object(requests, 'get')
     def test_show_failure(self, mock_get):
         """
-        Test .show() failure
+        Test alert policies .show() failure
         """
         mock_response = Mock(name='response')
         mock_response.json.side_effect = ValueError('No JSON object could be decoded')
@@ -168,7 +168,7 @@ class NRAlertPoliciesTests(TestCase):
     @patch.object(requests, 'put')
     def test_update(self, mock_put):
         """
-        Test .update() calls put with correct parameters
+        Test alert policies .update() calls put with correct parameters
         """
         self.policies.update(id=333114, policy_update=self.policy_show_response)
 

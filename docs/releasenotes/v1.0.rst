@@ -1,0 +1,14 @@
+newrelic-api v1.0
+=================
+
+This is a feature release of newrelic-api.
+
+Added API resources include
+
+* Application Hosts
+* Application Instances
+* Key Transactions
+* Plugins
+* Components
+
+All resources have updated documentation with API schema response examples.

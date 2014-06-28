@@ -1,6 +1,5 @@
 .. _ref-servers:
 
-=======
 Servers
 =======
 
@@ -13,4 +12,3 @@ newrelic_api.servers
     :undoc-members:
 
     .. automethod:: __init__
-

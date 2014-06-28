@@ -24,6 +24,32 @@ class Servers(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "servers": [
+                    {
+                        "id": "integer",
+                        "account_id": "integer",
+                        "name": "string",
+                        "host": "string",
+                        "reporting": "boolean",
+                        "last_reported_at": "time",
+                        "summary": {
+                            "cpu": "float",
+                            "cpu_stolen": "float",
+                            "disk_io": "float",
+                            "memory": "float",
+                            "memory_used": "integer",
+                            "memory_total": "integer",
+                            "fullest_disk": "float",
+                            "fullest_disk_free": "integer"
+                        }
+                    }
+                ]
+            }
+
         """
         filters = [
             'filter[name]={0}'.format(filter_name) if filter_name else None,
@@ -47,6 +73,30 @@ class Servers(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "server": {
+                    "id": "integer",
+                    "account_id": "integer",
+                    "name": "string",
+                    "host": "string",
+                    "reporting": "boolean",
+                    "last_reported_at": "time",
+                    "summary": {
+                        "cpu": "float",
+                        "cpu_stolen": "float",
+                        "disk_io": "float",
+                        "memory": "float",
+                        "memory_used": "integer",
+                        "memory_total": "integer",
+                        "fullest_disk": "float",
+                        "fullest_disk_free": "integer"
+                    }
+                }
+            }
+
         """
         response = requests.get(
             url='{0}servers/{1}.json'.format(self.URL, id),
@@ -66,6 +116,30 @@ class Servers(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "server": {
+                    "id": "integer",
+                    "account_id": "integer",
+                    "name": "string",
+                    "host": "string",
+                    "reporting": "boolean",
+                    "last_reported_at": "time",
+                    "summary": {
+                        "cpu": "float",
+                        "cpu_stolen": "float",
+                        "disk_io": "float",
+                        "memory": "float",
+                        "memory_used": "integer",
+                        "memory_total": "integer",
+                        "fullest_disk": "float",
+                        "fullest_disk_free": "integer"
+                    }
+                }
+            }
+
         """
         nr_data = self.show(id)['server']
 
@@ -95,6 +169,30 @@ class Servers(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "server": {
+                    "id": "integer",
+                    "account_id": "integer",
+                    "name": "string",
+                    "host": "string",
+                    "reporting": "boolean",
+                    "last_reported_at": "time",
+                    "summary": {
+                        "cpu": "float",
+                        "cpu_stolen": "float",
+                        "disk_io": "float",
+                        "memory": "float",
+                        "memory_used": "integer",
+                        "memory_total": "integer",
+                        "fullest_disk": "float",
+                        "fullest_disk_free": "integer"
+                    }
+                }
+            }
+
         """
         response = requests.delete(
             url='{0}servers/{1}.json'.format(
@@ -119,6 +217,18 @@ class Servers(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "metric": {
+                    "name": "string",
+                    "values": [
+                        "string"
+                    ]
+                }
+            }
+
         """
         params = [
             'name={0}'.format(name) if name else None,
@@ -167,6 +277,28 @@ class Servers(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "metric_data": {
+                    "from": "time",
+                    "to": "time",
+                    "metrics": [
+                        {
+                            "name": "string",
+                            "timeslices": [
+                                {
+                                    "from": "time",
+                                    "to": "time",
+                                    "values": "hash"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+
         """
         params = [
             'from={0}'.format(from_dt) if from_dt else None,

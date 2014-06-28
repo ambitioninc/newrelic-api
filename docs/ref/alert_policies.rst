@@ -1,6 +1,5 @@
 .. _ref-alert_policies:
 
-==============
 Alert Policies
 ==============
 
@@ -13,4 +12,3 @@ newrelic_api.alert_policies
     :undoc-members:
 
     .. automethod:: __init__
-
