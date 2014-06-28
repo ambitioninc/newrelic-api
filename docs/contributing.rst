@@ -1,4 +1,3 @@
-============
 Contributing
 ============
 
@@ -8,7 +7,6 @@ existing issues before filing a new one!
 
 .. _ambitioninc repository: https://github.com/ambitioninc/newrelic-api
 
------------------
 Running the tests
 -----------------
 
@@ -27,19 +25,30 @@ While 100% code coverage does not make a library bug-free, it significantly
 reduces the number of easily caught bugs! Please make sure coverage is at 100%
 before submitting a pull request!
 
-------------
 Code Quality
 ------------
 
 For code quality, please run flake8::
 
-    $ flake8 . --max-line-length=120 --max-complexity=10 --exclude='doc,venv,env,*.egg'
+    $ flake8 . --max-line-length=120 --max-complexity=10 --exclude='docs,venv,env,*.egg'
 
-Please follow `Google's python style`_ guide wherever possible
+Code Styling
+------------
+Please arrange imports with the following style::
+
+    # Standard library imports
+    import os
+
+    # Third party package imports
+    from mock import patch
+
+    # Local package imports
+    from newrelic_api.base import Resource
+
+Please follow `Google's python style`_ guide wherever possible.
 
 .. _Google's python style: http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 
------------------
 Building the docs
 -----------------
 
@@ -50,7 +59,6 @@ When in the project directory::
     $ make html
     $ open docs/_build/html/index.html
 
------------------------
 Vulnerability Reporting
 -----------------------
 

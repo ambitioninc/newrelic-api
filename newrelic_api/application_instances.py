@@ -1,0 +1,266 @@
+import requests
+
+from .base import Resource
+
+
+class ApplicationInstances(Resource):
+    """
+    An interface for interacting with the New Relic Application Instances API.
+    """
+    def list(
+            self, application_id, filter_hostname=None, filter_ids=None,
+            page=None):
+        """
+        This API endpoint returns a paginated list of instances associated with the
+        given application.
+
+        Application instances can be filtered by hostname, or the list of
+        application instance IDs.
+
+        :type application_id: int
+        :param application_id: Application ID
+
+        :type filter_hostname: str
+        :param filter_hostname: Filter by server hostname
+
+        :type filter_ids: list of ints
+        :param filter_ids: Filter by application instance ids
+
+        :type page: int
+        :param page: Pagination index
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "application_instances": [
+                    {
+                        "id": "integer",
+                        "application_name": "string",
+                        "host": "string",
+                        "port": "integer",
+                        "language": "integer",
+                        "health_status": "string",
+                        "application_summary": {
+                            "response_time": "float",
+                            "throughput": "float",
+                            "error_rate": "float",
+                            "apdex_score": "float"
+                        },
+                        "end_user_summary": {
+                            "response_time": "float",
+                            "throughput": "float",
+                            "apdex_score": "float"
+                        },
+                        "links": {
+                            "application": "integer",
+                            "application_host": "integer",
+                            "server": "integer"
+                        }
+                    }
+                ]
+            }
+
+        """
+        filters = [
+            'filter[hostname]={0}'.format(filter_hostname) if filter_hostname else None,
+            'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
+            'page={0}'.format(page) if page else None
+        ]
+
+        response = requests.get(
+            url='{root}applications/{application_id}/instances.json'.format(
+                root=self.URL,
+                application_id=application_id
+            ),
+            headers=self.headers,
+            params=self.build_param_string(filters)
+        )
+        return response.json()
+
+    def show(self, application_id, instance_id):
+        """
+        This API endpoint returns a single application host, identified by its
+        ID.
+
+        :type application_id: int
+        :param application_id: Application ID
+
+        :type instance_id: int
+        :param instance_id: Application instance ID
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "application_instance": {
+                    "id": "integer",
+                    "application_name": "string",
+                    "host": "string",
+                    "port": "integer",
+                    "language": "integer",
+                    "health_status": "string",
+                    "application_summary": {
+                        "response_time": "float",
+                        "throughput": "float",
+                        "error_rate": "float",
+                        "apdex_score": "float"
+                    },
+                    "end_user_summary": {
+                        "response_time": "float",
+                        "throughput": "float",
+                        "apdex_score": "float"
+                    },
+                    "links": {
+                        "application": "integer",
+                        "application_host": "integer",
+                        "server": "integer"
+                    }
+                }
+            }
+
+        """
+        response = requests.get(
+            url='{root}applications/{application_id}/instances/{instance_id}.json'.format(
+                root=self.URL,
+                application_id=application_id,
+                instance_id=instance_id
+            ),
+            headers=self.headers,
+        )
+        return response.json()
+
+    def metric_names(self, application_id, instance_id, name=None, page=None):
+        """
+        Return a list of known metrics and their value names for the given resource.
+
+        :type application_id: int
+        :param application_id: Application ID
+
+        :type instance_id: int
+        :param instance_id: Application Host ID
+
+        :type name: str
+        :param name: Filter metrics by name
+
+        :type page: int
+        :param page: Pagination index
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "metrics": [
+                    {
+                        "name": "string",
+                        "values": [
+                            "string"
+                        ]
+                    }
+                ]
+            }
+
+        """
+        params = [
+            'name={0}'.format(name) if name else None,
+            'page={0}'.format(page) if page else None
+        ]
+
+        response = requests.get(
+            url='{root}applications/{application_id}/instances/{instance_id}/metrics.json'.format(
+                root=self.URL,
+                application_id=application_id,
+                instance_id=instance_id
+            ),
+            headers=self.headers,
+            params=self.build_param_string(params)
+        )
+        return response.json()
+
+    def metric_data(
+            self, application_id, instance_id, names, values=None, from_dt=None, to_dt=None,
+            summarize=False):
+        """
+        This API endpoint returns a list of values for each of the requested
+        metrics. The list of available metrics can be returned using the Metric
+        Name API endpoint. Metric data can be filtered by a number of
+        parameters, including multiple names and values, and by time range.
+        Metric names and values will be matched intelligently in the
+        background. You can also retrieve a summarized data point across the
+        entire time range selected by using the summarize parameter.
+
+        **Note** All times sent and received are formatted in UTC. The default
+        time range is the last 30 minutes.
+
+        :type application_id: int
+        :param application_id: Application ID
+
+        :type instance_id: int
+        :param instance_id: Application Host ID
+
+        :type names: list of str
+        :param names: Retrieve specific metrics by name
+
+        :type values: list of str
+        :param values: Retrieve specific metric values
+
+        :type from_dt: datetime
+        :param from_dt: Retrieve metrics after this time
+
+        :type to_dt: datetime
+        :param to_dt: Retrieve metrics before this time
+
+        :type summarize: bool
+        :param summarize: Summarize the data
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "metric_data": {
+                    "from": "time",
+                    "to": "time",
+                    "metrics": [
+                        {
+                            "name": "string",
+                            "timeslices": [
+                                {
+                                    "from": "time",
+                                    "to": "time",
+                                    "values": "hash"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+
+        """
+        params = [
+            'from={0}'.format(from_dt) if from_dt else None,
+            'to={0}'.format(to_dt) if to_dt else None,
+            'summarize=true' if summarize else None
+        ]
+
+        params += ['names[]={0}'.format(name) for name in names]
+        if values:
+            params += ['values[]={0}'.format(value) for value in values]
+
+        response = requests.get(
+            url='{url}applications/{application_id}/instances/{instance_id}/metrics/data.json'.format(
+                url=self.URL,
+                application_id=application_id,
+                instance_id=instance_id,
+            ),
+            headers=self.headers,
+            params=self.build_param_string(params)
+        )
+        return response.json()

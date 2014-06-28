@@ -1,6 +1,5 @@
 .. _ref-notification_channels:
 
-=====================
 Notification Channels
 =====================
 
@@ -13,4 +12,3 @@ newrelic_api.notification_channels
     :undoc-members:
 
     .. automethod:: __init__
-

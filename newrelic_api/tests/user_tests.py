@@ -41,7 +41,7 @@ class NRUsersTests(TestCase):
     @patch.object(requests, 'get')
     def test_list_success(self, mock_get):
         """
-        Test .list()
+        Test users .list()
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.user_list_response
@@ -55,7 +55,7 @@ class NRUsersTests(TestCase):
     @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
         """
-        Test .list() failure case
+        Test users .list() failure case
         """
         mock_response = Mock(name='response')
         mock_response.json.side_effect = ValueError('No JSON object could be decoded')
@@ -68,7 +68,7 @@ class NRUsersTests(TestCase):
     @patch.object(requests, 'get')
     def test_show_success(self, mock_get):
         """
-        Test .show() success
+        Test users .show() success
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.user_show_response
@@ -82,7 +82,7 @@ class NRUsersTests(TestCase):
     @patch.object(requests, 'get')
     def test_show_failure(self, mock_get):
         """
-        Test .show() failure
+        Test users .show() failure
         """
         mock_response = Mock(name='response')
         mock_response.json.side_effect = ValueError('No JSON object could be decoded')

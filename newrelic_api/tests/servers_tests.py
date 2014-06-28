@@ -118,7 +118,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
         """
-        Test .list() failure case
+        Test servers .list() failure case
         """
         mock_response = Mock(name='response')
         mock_response.json.side_effect = ValueError('No JSON object could be decoded')
@@ -159,7 +159,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'put')
     def test_update_success(self, mock_put, mock_get):
         """
-        Test .update() success
+        Test servers .update() success
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.show_success_response
@@ -175,7 +175,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'put')
     def test_update_failure(self, mock_put, mock_get):
         """
-        Test .update() failure
+        Test servers .update() failure
         """
         mock_response1 = Mock(name='response')
         mock_response1.json.return_value = self.show_success_response
@@ -192,7 +192,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'delete')
     def test_delete_success(self, mock_delete):
         """
-        Test .delete() success
+        Test servers .delete() success
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.show_success_response
@@ -206,7 +206,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'delete')
     def test_delete_failure(self, mock_delete):
         """
-        Test .delete() failure
+        Test servers .delete() failure
         """
         mock_response = Mock(name='response')
         mock_response.json.side_effect = ValueError('No JSON object could be decoded')
@@ -219,7 +219,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'get')
     def test_metric_names(self, mock_get):
         """
-        Test .metric_names()
+        Test servers .metric_names()
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.metric_name_response
@@ -232,7 +232,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'get')
     def test_metric_data_without_values(self, mock_get):
         """
-        Test .metric_data() without values param
+        Test servers .metric_data() without values param
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.metric_data_response
@@ -245,7 +245,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'get')
     def test_metric_data_with_values(self, mock_get):
         """
-        Test .metric_data() with values param
+        Test servers .metric_data() with values param
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.metric_data_response

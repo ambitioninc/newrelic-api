@@ -9,16 +9,26 @@ concise, pythonic way. For full documentation on each endpoint, please see
 
 
 .. toctree::
-    :maxdepth: 1
+   :maxdepth: 1
 
-    ref/alert_policies
-    ref/applications
-    ref/base
-    ref/notification_channels
-    ref/servers
-    ref/users
-    ref/exceptions
-    contributing
+   ref/alert_policies
+   ref/applications
+   ref/application_hosts
+   ref/application_instances
+   ref/components
+   ref/key_transactions
+   ref/notification_channels
+   ref/plugins
+   ref/servers
+   ref/users
+   ref/base
+   ref/exceptions
+   contributing
+
+.. toctree::
+   :maxdepth: 2
+
+   releasenotes/index
 
 Installation
 ============
@@ -51,24 +61,19 @@ you can pass the API key as an argument in the interface constructor::
     app = Applications(NEWRELIC_API_KEY='4baa5d20cfba466a5e075b02698f455c')
     response = app.list(filter_name='demo')
 
-
 Currently Supported Resources
 =============================
 
 * Alert Policies (:doc:`API Reference <ref/alert_policies>`)
 * Applications (:doc:`API Reference <ref/applications>`)
+* Application Hosts (:doc:`API Reference <ref/application_hosts>`)
+* Application Instances (:doc:`API Reference <ref/application_instances>`)
+* Components (:doc:`API Reference <ref/components>`)
+* Key Transactions (:doc:`API Reference <ref/key_transactions>`)
 * Notification Channels (:doc:`API Reference <ref/notification_channels>`)
+* Plugins (:doc:`API Reference <ref/plugins>`)
 * Servers (:doc:`API Reference <ref/servers>`)
 * Users (:doc:`API Reference <ref/users>`)
-
-Resources that need to be built out
-===================================
-
-* Application Hosts
-* Application Instances
-* Key Transactions
-* Plugins
-* Components
 
 Internal resources
 ==================
@@ -82,16 +87,10 @@ Release Notes
 
 .. toctree::
 
+   releasenotes/v1.0
    releasenotes/v0.1
 
 Contributing
 ============
 
 Please see :doc:`Contributing <contributing>`
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

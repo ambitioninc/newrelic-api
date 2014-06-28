@@ -1,6 +1,5 @@
 .. _ref-base:
 
-====
 Base
 ====
 
@@ -13,4 +12,3 @@ newrelic_api.base
     :undoc-members:
 
     .. automethod:: __init__
-
