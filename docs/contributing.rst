@@ -10,16 +10,15 @@ existing issues before filing a new one!
 Running the tests
 -----------------
 
-Once you have cloned the source code, you can run the code quality and unit
-tests by running::
+To get the source source code and run the unit tests, run::
 
     $ git clone git://github.com/ambitioninc/newrelic-api.git
     $ cd newrelic-api
     $ virtualenv env
     $ . env/bin/activate
+    $ pip install nose
     $ python setup.py install
-    $ pip install -r requirements/test.txt
-    $ nosetests --cover-branches --with-coverage --cover-min-percentage=100 --cover-package=newrelic_api
+    $ python setup.py nosetests
 
 While 100% code coverage does not make a library bug-free, it significantly
 reduces the number of easily caught bugs! Please make sure coverage is at 100%
@@ -30,7 +29,8 @@ Code Quality
 
 For code quality, please run flake8::
 
-    $ flake8 . --max-line-length=120 --max-complexity=10 --exclude='docs,venv,env,*.egg'
+    $ pip install flake8
+    $ flake8 .
 
 Code Styling
 ------------
@@ -54,9 +54,9 @@ Building the docs
 
 When in the project directory::
 
+    $ pip install -r requirements/docs.txt
     $ pip uninstall -y newrelic-api && python setup.py install
-    $ cd docs
-    $ make html
+    $ cd docs && make html
     $ open docs/_build/html/index.html
 
 Vulnerability Reporting
