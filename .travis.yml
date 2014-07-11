@@ -1,10 +1,12 @@
 language: python
 python:
   - '2.7'
+  - '3.3'
+  - '3.4'
 install:
-  - pip install -r requirements/test.txt
+  - pip install nose flake8
   - python setup.py install
 before_script:
-  - flake8 . --max-line-length=120 --max-complexity=10 --exclude='docs,venv,env,*.egg'
+  - flake8 .
 script:
-  - nosetests --cover-branches --with-coverage --cover-min-percentage=100 --cover-package=newrelic_api
+  - python setup.py nosetests

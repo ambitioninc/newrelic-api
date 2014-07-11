@@ -16,7 +16,6 @@ class Applications(Resource):
         by their name, the list of application IDs or the application language
         as reported by the agents.
 
-
         :type filter_name: str
         :param filter_name: Filter by application name
 
