@@ -126,6 +126,25 @@ class NRAlertPoliciesTests(TestCase):
         self.assertIsInstance(response, dict)
 
     @patch.object(requests, 'get')
+    def test_list_success_with_ids(self, mock_get):
+        """
+        Test alert policies .list() with filter_ids
+        """
+        mock_response = Mock(name='response')
+        mock_response.json.return_value = self.policies_list_response
+        mock_get.return_value = mock_response
+
+        # Call the method
+        response = self.policies.list(filter_ids=[12345])
+
+        self.assertIsInstance(response, dict)
+        mock_get.assert_called_once_with(
+            url='https://api.newrelic.com/v2/alert_policies.json',
+            headers=self.policies.headers,
+            params='filter[ids]=12345'
+        )
+
+    @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
         """
         Test alert policies .list() failure case

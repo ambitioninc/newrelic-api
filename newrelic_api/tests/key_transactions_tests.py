@@ -55,6 +55,26 @@ class NRKeyTransactionsTests(TestCase):
         self.assertIsInstance(response, dict)
 
     @patch.object(requests, 'get')
+    def test_list_success_with_filter_ids(self, mock_get):
+        """
+        Test key transactions .list() with filter_ids
+        """
+        mock_response = Mock(name='response')
+        mock_response.json.return_value = self.key_transactions_list_response
+        mock_get.return_value = mock_response
+
+        # Call the method
+        response = self.key_transactions.list(filter_ids=[333112])
+
+        self.assertIsInstance(response, dict)
+
+        mock_get.assert_called_once_with(
+            url='https://api.newrelic.com/v2/key_transactions.json',
+            headers=self.key_transactions.headers,
+            params='filter[ids]=333112'
+        )
+
+    @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
         """
         Test key transactions .list() failure case

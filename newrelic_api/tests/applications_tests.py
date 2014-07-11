@@ -135,6 +135,25 @@ class NRApplicationsTests(TestCase):
         self.assertIsInstance(response, dict)
 
     @patch.object(requests, 'get')
+    def test_list_success_with_filter_ids(self, mock_get):
+        """
+        Test applications .list()
+        """
+        mock_response = Mock(name='response')
+        mock_response.json.return_value = self.list_success_response
+        mock_get.return_value = mock_response
+
+        # Call the method
+        response = self.app.list(filter_ids=[1234567])
+
+        self.assertIsInstance(response, dict)
+        mock_get.assert_called_once_with(
+            url='https://api.newrelic.com/v2/applications.json',
+            headers=self.app.headers,
+            params='filter[ids]=1234567'
+        )
+
+    @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
         """
         Test applications .list() failure case

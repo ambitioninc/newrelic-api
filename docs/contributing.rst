@@ -34,7 +34,9 @@ For code quality, please run flake8::
 
 Code Styling
 ------------
-Please arrange imports with the following style::
+Please arrange imports with the following style:
+
+.. code-block:: python
 
     # Standard library imports
     import os
@@ -58,6 +60,16 @@ When in the project directory::
     $ pip uninstall -y newrelic-api && python setup.py install
     $ cd docs && make html
     $ open docs/_build/html/index.html
+
+Release Checklist
+-----------------
+
+Before a new release, please go through the following checklist:
+
+* Bump version in newrelic_api/version.py
+* Git tag the version
+* Add a release note in docs/release_notes.rst
+* Upload to pypi
 
 Vulnerability Reporting
 -----------------------

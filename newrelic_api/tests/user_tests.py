@@ -53,6 +53,20 @@ class NRUsersTests(TestCase):
         self.assertIsInstance(response, dict)
 
     @patch.object(requests, 'get')
+    def test_list_success_with_ids(self, mock_get):
+        """
+        Test users .list() with filter_ids
+        """
+        mock_response = Mock(name='response')
+        mock_response.json.return_value = self.user_list_response
+        mock_get.return_value = mock_response
+
+        # Call the method
+        response = self.user.list(filter_ids=[333113, 333112, 333111])
+
+        self.assertIsInstance(response, dict)
+
+    @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
         """
         Test users .list() failure case

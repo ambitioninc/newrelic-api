@@ -1,11 +1,13 @@
-Table Of Contents
+Table of Contents
 =================
 
 .. toctree::
    :maxdepth: 2
 
    index
-
+   installation
+   configuration
+   examples
    ref/alert_policies
    ref/applications
    ref/application_hosts
@@ -15,14 +17,9 @@ Table Of Contents
    ref/notification_channels
    ref/plugins
    ref/servers
+   ref/servers
    ref/users
-
    ref/base
    ref/exceptions
-
+   release_notes
    contributing
-
-Indices and tables
-==================
-
-* :ref:`search`

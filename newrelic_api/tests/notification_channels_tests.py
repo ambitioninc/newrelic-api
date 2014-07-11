@@ -44,6 +44,19 @@ class NRNotificationChannelsTests(TestCase):
         )
 
     @patch.object(requests, 'get')
+    def test_list_with_filter_ids(self, mock_get):
+        """
+        Test notification channels .list() with filter_ids
+        """
+        self.channels.list(filter_type=['user'], filter_ids=[111222], page=0)
+
+        mock_get.assert_called_once_with(
+            url='https://api.newrelic.com/v2/notification_channels.json',
+            headers=self.channels.headers,
+            params='filter[type]=user&filter[ids]=111222'
+        )
+
+    @patch.object(requests, 'get')
     def test_show(self, mock_get):
         """
         Test notification channels .show()

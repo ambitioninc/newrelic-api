@@ -104,7 +104,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'get')
     def test_list_success(self, mock_get):
         """
-        Test .list()
+        Test servers .list()
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.list_success_response
@@ -114,6 +114,25 @@ class NRServersTests(TestCase):
         response = self.server.list()
 
         self.assertIsInstance(response, dict)
+
+    @patch.object(requests, 'get')
+    def test_list_success_with_filter_ids(self, mock_get):
+        """
+        Test servers .list() with filter_ids
+        """
+        mock_response = Mock(name='response')
+        mock_response.json.return_value = self.list_success_response
+        mock_get.return_value = mock_response
+
+        # Call the method
+        response = self.server.list(filter_ids=[1234567])
+
+        self.assertIsInstance(response, dict)
+        mock_get.assert_called_once_with(
+            url='https://api.newrelic.com/v2/servers.json',
+            headers=self.server.headers,
+            params='filter[ids]=1234567'
+        )
 
     @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
@@ -131,7 +150,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'get')
     def test_show_success(self, mock_get):
         """
-        Test .show() success
+        Test servers .show() success
         """
         mock_response = Mock(name='response')
         mock_response.json.return_value = self.show_success_response
@@ -145,7 +164,7 @@ class NRServersTests(TestCase):
     @patch.object(requests, 'get')
     def test_show_failure(self, mock_get):
         """
-        Test .show() failure
+        Test servers .show() failure
         """
         mock_response = Mock(name='response')
         mock_response.json.side_effect = ValueError('No JSON object could be decoded')
