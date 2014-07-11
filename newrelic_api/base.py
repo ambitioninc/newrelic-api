@@ -4,14 +4,19 @@ from newrelic_api.exceptions import ConfigurationException
 
 
 class Resource(object):
+    """
+    A base class for API resources
+    """
     URL = 'https://api.newrelic.com/v2/'
 
     def __init__(self, api_key=None):
         """
         :type api_key: str
         :param api_key: The API key. If no key is passed, the environment
-            variable NEWRELIC_API_KEY is used. If the variable is not present,
-            a ConfigurationException is raised.
+            variable NEWRELIC_API_KEY is used.
+        :raises: If the api_key parameter is not present, and no environment
+            variable is present, a :class:`newrelic_api.exceptions.ConfigurationException`
+            is raised.
         """
         self.api_key = api_key or os.environ.get('NEWRELIC_API_KEY')
 
@@ -26,10 +31,12 @@ class Resource(object):
     def build_param_string(self, params):
         """
         This is a simple helper method to build a parameter string. It joins
-        all list elements that evaluate to True with an ampersand, '&'::
+        all list elements that evaluate to True with an ampersand, '&'
 
-            > parameters = Resource().build_param_string(['filter[name]=dev', None, 'page=1'])
-            > print parameters
+        .. code-block:: python
+
+            >>> parameters = Resource().build_param_string(['filter[name]=dev', None, 'page=1'])
+            >>> print parameters
             filter[name]=dev&page=1
 
         :type params: list

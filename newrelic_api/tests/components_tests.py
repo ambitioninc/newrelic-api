@@ -79,6 +79,19 @@ class NRComponentsTests(TestCase):
         )
 
     @patch.object(requests, 'get')
+    def test_list_with_filter_ids(self, mock_get):
+        """
+        Test components .list() with filter_ids
+        """
+        self.components.list(filter_name='SendGrid', filter_ids=[2223333], page=0)
+
+        mock_get.assert_called_once_with(
+            url='https://api.newrelic.com/v2/components.json',
+            headers=self.components.headers,
+            params='filter[name]=SendGrid&filter[ids]=2223333'
+        )
+
+    @patch.object(requests, 'get')
     def test_show(self, mock_get):
         """
         Test components .show()
