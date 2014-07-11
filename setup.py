@@ -20,7 +20,7 @@ def get_version():
 setup(
     name='newrelic-api',
     version=get_version(),
-    description='A python interface to the New Relic API',
+    description='A python interface to the New Relic API v2',
     long_description=open('README.rst').read(),
     url='https://github.com/ambitioninc/newrelic-api',
     author='Micah Hausler',
@@ -38,12 +38,12 @@ setup(
     install_requires=[
         'requests>=2.0.0'
     ],
+    test_suite='nose.collector',
     tests_require=[
         'coverage>=3.7.1',
         'mock>=1.0.1',
         'nose>=1.3.0',
     ],
-    test_suite='nose.collector',
     include_package_data=True,
     zip_safe=True,
 )

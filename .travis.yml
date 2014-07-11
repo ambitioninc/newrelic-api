@@ -6,7 +6,6 @@ python:
 install:
   - pip install nose flake8
   - python setup.py install
-before_script:
-  - flake8 .
 script:
+  - flake8 .
   - python setup.py nosetests
