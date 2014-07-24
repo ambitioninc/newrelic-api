@@ -1,3 +1,9 @@
+.. image:: https://travis-ci.org/ambitioninc/newrelic-api.png
+   :target: https://travis-ci.org/ambitioninc/newrelic-api
+
+.. image:: https://coveralls.io/repos/ambitioninc/newrelic-api/badge.png
+    :target: https://coveralls.io/r/ambitioninc/newrelic-api
+
 newrelic-api: A Python interface to New Relic's API
 ===================================================
 

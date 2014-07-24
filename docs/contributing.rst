@@ -69,7 +69,10 @@ Before a new release, please go through the following checklist:
 * Bump version in newrelic_api/version.py
 * Git tag the version
 * Add a release note in docs/release_notes.rst
-* Upload to pypi
+* Upload to pypi::
+
+    python setup.py sdist bdist_wheel upload
+
 
 Vulnerability Reporting
 -----------------------
