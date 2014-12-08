@@ -2,7 +2,7 @@ Examples
 ========
 
 As stated in :doc:`Configuration <configuration>`, you need to pass in your API
-key to the constructor for each resource class, or set the ``NEWRELIC_API_KEY``
+key to the constructor for each resource class, or set the ``NEW_RELIC_API_KEY``
 environment variable. The following examples assume the environment variable
 is set.
 
