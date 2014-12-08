@@ -6,7 +6,7 @@ New Relic documentation for accessing this can be found `here`_.
 
 .. _here: https://docs.newrelic.com/docs/apis/api-key
 
-You can set the API key as the environment variable ``NEWRELIC_API_KEY``, or
+You can set the API key as the environment variable ``NEW_RELIC_API_KEY``, or
 you can pass the API key as an argument in the interface constructor:
 
 .. code-block:: python

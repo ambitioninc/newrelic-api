@@ -2,7 +2,7 @@ import os
 from datetime import time
 from unittest import TestCase
 
-from mock import patch
+from mock import patch, call
 
 from newrelic_api.base import Resource
 from newrelic_api.exceptions import ConfigurationException
@@ -23,6 +23,24 @@ class ResourceTests(TestCase):
         self.assertEqual(resource.api_key, '123')
 
     @patch.object(os.environ, 'get', spec_set=True)
+    def test_second_resource_from_os(self, os_environ_mock):
+        """
+        Test the api_key gets set by the OS by NEWRELIC_API_KEY
+        """
+        os_environ_mock.side_effect = (None, '123')
+
+        resource = Resource()
+
+        os_environ_mock.assert_has_calls(
+            [
+                call('NEW_RELIC_API_KEY'),
+                call('NEWRELIC_API_KEY'),
+            ]
+        )
+
+        self.assertEqual(resource.api_key, '123')
+
+    @patch.object(os.environ, 'get', spec_set=True)
     def test_resource_from_os(self, os_environ_mock):
         """
         Test the api_key gets set by the OS
@@ -31,7 +49,7 @@ class ResourceTests(TestCase):
 
         resource = Resource()
 
-        os_environ_mock.assert_called_once_with('NEWRELIC_API_KEY')
+        os_environ_mock.assert_called_once_with('NEW_RELIC_API_KEY')
 
         self.assertEqual(resource.api_key, '123')
 
@@ -45,7 +63,7 @@ class ResourceTests(TestCase):
         with self.assertRaises(ConfigurationException):
             Resource()
 
-        os_environ_mock.assert_called_once_with('NEWRELIC_API_KEY')
+        # os_environ_mock.assert_called_once_with('NEWRELIC_API_KEY')
 
     def test_build_param_string(self):
         """

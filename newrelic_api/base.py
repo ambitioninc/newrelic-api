@@ -13,15 +13,15 @@ class Resource(object):
         """
         :type api_key: str
         :param api_key: The API key. If no key is passed, the environment
-            variable NEWRELIC_API_KEY is used.
+            variable NEW_RELIC_API_KEY is used.
         :raises: If the api_key parameter is not present, and no environment
             variable is present, a :class:`newrelic_api.exceptions.ConfigurationException`
             is raised.
         """
-        self.api_key = api_key or os.environ.get('NEWRELIC_API_KEY')
+        self.api_key = api_key or os.environ.get('NEW_RELIC_API_KEY') or os.environ.get('NEWRELIC_API_KEY')
 
         if not self.api_key:
-            raise ConfigurationException('NEWRELIC_API_KEY not present in environment!')
+            raise ConfigurationException('NEW_RELIC_API_KEY or NEWRELIC_API_KEY not present in environment!')
 
         self.headers = {
             'Content-type': 'application/json',

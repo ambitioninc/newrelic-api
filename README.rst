@@ -1,8 +1,16 @@
 .. image:: https://travis-ci.org/ambitioninc/newrelic-api.png
    :target: https://travis-ci.org/ambitioninc/newrelic-api
 
-.. image:: https://coveralls.io/repos/ambitioninc/newrelic-api/badge.png
-    :target: https://coveralls.io/r/ambitioninc/newrelic-api
+.. image:: https://coveralls.io/repos/ambitioninc/newrelic-api/badge.png?branch=develop
+    :target: https://coveralls.io/r/ambitioninc/newrelic-api?branch=develop
+
+.. image:: https://pypip.in/v/newrelic-api/badge.png
+    :target: https://crate.io/packages/newrelic-api/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/newrelic-api/badge.png
+    :target: https://crate.io/packages/newrelic-api/
+    :alt: Number of PyPI downloads
 
 newrelic-api: A Python interface to New Relic's API
 ===================================================
