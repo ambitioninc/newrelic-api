@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v1.0.2
+------
+* Updated to match the `New Relic Python agent's`_ use of environment variables
+
+.. _New Relic Python agent's: https://docs.newrelic.com/docs/agents/python-agent/installation-configuration/python-agent-configuration#environment-variables
+
 v1.0.1
 ------
 * Added example usage to docs
