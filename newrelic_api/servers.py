@@ -54,10 +54,11 @@ class Servers(Resource):
             }
 
         """
+        label_param = ';'.join(['{}:{}'.format(label, value) for label, value in filter_labels.items()])
         filters = [
             'filter[name]={0}'.format(filter_name) if filter_name else None,
             'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
-            'filter[labels]={0}'.format(';'.join(['{}:{}'.format(label, value) for label, value in filter_labels.items()])) if filter_labels else None,
+            'filter[labels]={0}'.format(label_param) if filter_labels else None,
             'page={0}'.format(page) if page else None
         ]
 
