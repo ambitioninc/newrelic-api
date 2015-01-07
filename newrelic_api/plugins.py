@@ -1,5 +1,3 @@
-import requests
-
 from .base import Resource
 
 
@@ -77,7 +75,6 @@ class Plugins(Resource):
             }
 
         """
-
         filters = [
             'filter[guid]={0}'.format(filter_guid) if filter_guid else None,
             'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
@@ -85,12 +82,11 @@ class Plugins(Resource):
             'page={0}'.format(page) if page else None
         ]
 
-        response = requests.get(
+        return self._get(
             url='{0}plugins.json'.format(self.URL),
             headers=self.headers,
             params=self.build_param_string(filters)
         )
-        return response.json()
 
     def show(self, id, detailed=None):
         """
@@ -154,7 +150,7 @@ class Plugins(Resource):
         filters = [
             'detailed={0}'.format(detailed) if detailed is not None else None,
         ]
-        response = requests.get(
+        return self._get(
             url='{root}plugins/{id}.json'.format(
                 root=self.URL,
                 id=id
@@ -162,4 +158,3 @@ class Plugins(Resource):
             headers=self.headers,
             params=self.build_param_string(filters) or None
         )
-        return response.json()

@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+v1.0.3
+------
+
+* Add support for filtering server via labels - `@mwarkentin`_
+* Check for error on responses
+* PUTS now json-encode input
+
+.. _@mwarkentin: https://github.com/mwarkentin
+
 v1.0.2
 ------
 * Updated to match the `New Relic Python agent's`_ use of environment variables

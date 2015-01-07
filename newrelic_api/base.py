@@ -1,6 +1,9 @@
 import os
+import json
 
-from newrelic_api.exceptions import ConfigurationException
+import requests
+
+from newrelic_api.exceptions import ConfigurationException, NewRelicAPIServerException
 
 
 class Resource(object):
@@ -27,6 +30,56 @@ class Resource(object):
             'Content-type': 'application/json',
             'X-Api-Key': self.api_key,
         }
+
+    def _get(self, *args, **kwargs):
+        """
+        A wrapper for getting things
+
+        :returns: The response of your get
+        :rtype: dict
+
+        :raises: This will raise a
+            :class:`NewRelicAPIServerException<newrelic_api.exceptions.NewRelicAPIServerException>`
+            if there is an error from New Relic
+        """
+        response = requests.get(*args, **kwargs)
+        if not response.ok:
+            raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
+        return response.json()
+
+    def _put(self, *args, **kwargs):
+        """
+        A wrapper for putting things. It will also json encode your 'data' parameter
+
+        :returns: The response of your put
+        :rtype: dict
+
+        :raises: This will raise a
+            :class:`NewRelicAPIServerException<newrelic_api.exceptions.NewRelicAPIServerException>`
+            if there is an error from New Relic
+        """
+        if 'data' in kwargs:
+            kwargs['data'] = json.dumps(kwargs['data'])
+        response = requests.put(*args, **kwargs)
+        if not response.ok:
+            raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
+        return response.json()
+
+    def _delete(self, *args, **kwargs):
+        """
+        A wrapper for deleting things
+
+        :returns: The response of your delete
+        :rtype: dict
+
+        :raises: This will raise a
+            :class:`NewRelicAPIServerException<newrelic_api.exceptions.NewRelicAPIServerException>`
+            if there is an error from New Relic
+        """
+        response = requests.delete(*args, **kwargs)
+        if not response.ok:
+            raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
+        return response.json()
 
     def build_param_string(self, params):
         """

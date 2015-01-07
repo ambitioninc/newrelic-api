@@ -1,5 +1,3 @@
-import requests
-
 from .base import Resource
 
 
@@ -69,8 +67,7 @@ class ApplicationInstances(Resource):
             'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
             'page={0}'.format(page) if page else None
         ]
-
-        response = requests.get(
+        return self._get(
             url='{root}applications/{application_id}/instances.json'.format(
                 root=self.URL,
                 application_id=application_id
@@ -78,7 +75,6 @@ class ApplicationInstances(Resource):
             headers=self.headers,
             params=self.build_param_string(filters)
         )
-        return response.json()
 
     def show(self, application_id, instance_id):
         """
@@ -124,7 +120,7 @@ class ApplicationInstances(Resource):
             }
 
         """
-        response = requests.get(
+        return self._get(
             url='{root}applications/{application_id}/instances/{instance_id}.json'.format(
                 root=self.URL,
                 application_id=application_id,
@@ -132,7 +128,6 @@ class ApplicationInstances(Resource):
             ),
             headers=self.headers,
         )
-        return response.json()
 
     def metric_names(self, application_id, instance_id, name=None, page=None):
         """
@@ -171,8 +166,7 @@ class ApplicationInstances(Resource):
             'name={0}'.format(name) if name else None,
             'page={0}'.format(page) if page else None
         ]
-
-        response = requests.get(
+        return self._get(
             url='{root}applications/{application_id}/instances/{instance_id}/metrics.json'.format(
                 root=self.URL,
                 application_id=application_id,
@@ -181,7 +175,6 @@ class ApplicationInstances(Resource):
             headers=self.headers,
             params=self.build_param_string(params)
         )
-        return response.json()
 
     def metric_data(
             self, application_id, instance_id, names, values=None, from_dt=None, to_dt=None,
@@ -254,7 +247,7 @@ class ApplicationInstances(Resource):
         if values:
             params += ['values[]={0}'.format(value) for value in values]
 
-        response = requests.get(
+        return self._get(
             url='{url}applications/{application_id}/instances/{instance_id}/metrics/data.json'.format(
                 url=self.URL,
                 application_id=application_id,
@@ -263,4 +256,3 @@ class ApplicationInstances(Resource):
             headers=self.headers,
             params=self.build_param_string(params)
         )
-        return response.json()

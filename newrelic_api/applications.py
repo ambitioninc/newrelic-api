@@ -1,5 +1,3 @@
-import requests
-
 from .base import Resource
 
 
@@ -83,13 +81,11 @@ class Applications(Resource):
             'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
             'page={0}'.format(page) if page else None
         ]
-
-        response = requests.get(
+        return self._get(
             url='{0}applications.json'.format(self.URL),
             headers=self.headers,
             params=self.build_param_string(filters)
         )
-        return response.json()
 
     def show(self, id):
         """
@@ -145,11 +141,10 @@ class Applications(Resource):
                 }
 
         """
-        response = requests.get(
+        return self._get(
             url='{0}applications/{1}.json'.format(self.URL, id),
             headers=self.headers,
         )
-        return response.json()
 
     def update(
             self, id, name=None, app_apdex_threshold=None, end_user_apdex_threshold=None,
@@ -236,7 +231,7 @@ class Applications(Resource):
             }
         }
 
-        response = requests.put(
+        return self._put(
             url='{0}{1}/{2}.json'.format(
                 self.URL,
                 'applications',
@@ -244,7 +239,6 @@ class Applications(Resource):
             headers=self.headers,
             data=data
         )
-        return response.json()
 
     def delete(self, id):
         """
@@ -304,11 +298,10 @@ class Applications(Resource):
             }
 
         """
-        response = requests.delete(
+        return self._delete(
             url='{0}applications/{1}.json'.format(self.URL, id),
             headers=self.headers,
         )
-        return response.json()
 
     def metric_names(self, id, name=None, page=None):
         """
@@ -343,12 +336,11 @@ class Applications(Resource):
             'page={0}'.format(page) if page else None
         ]
 
-        response = requests.get(
+        return self._get(
             url='{0}applications/{1}/metrics.json'.format(self.URL, id),
             headers=self.headers,
             params=self.build_param_string(params)
         )
-        return response.json()
 
     def metric_data(
             self, id, names, values=None, from_dt=None, to_dt=None,
@@ -418,9 +410,8 @@ class Applications(Resource):
         if values:
             params += ['values[]={0}'.format(value) for value in values]
 
-        response = requests.get(
+        return self._get(
             url='{0}applications/{1}/metrics/data.json'.format(self.URL, id),
             headers=self.headers,
             params=self.build_param_string(params)
         )
-        return response.json()
