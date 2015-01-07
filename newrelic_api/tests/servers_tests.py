@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from unittest import TestCase
 
 from mock import patch, Mock
@@ -132,6 +133,27 @@ class NRServersTests(TestCase):
             url='https://api.newrelic.com/v2/servers.json',
             headers=self.server.headers,
             params='filter[ids]=1234567'
+        )
+
+    @patch.object(requests, 'get')
+    def test_list_success_with_filter_labels(self, mock_get):
+        """
+        Test servers .list() with filter_labels
+        """
+        mock_response = Mock(name='response')
+        mock_response.json.return_value = self.list_success_response
+        mock_get.return_value = mock_response
+
+        # Call the method
+        # Use ordered dict to guarantee ordering of labels in query param
+        labels = OrderedDict((('Type1', 'Value1'), ('Type2', 'Value2')))
+        response = self.server.list(filter_labels=labels)
+
+        self.assertIsInstance(response, dict)
+        mock_get.assert_called_once_with(
+            url='https://api.newrelic.com/v2/servers.json',
+            headers=self.server.headers,
+            params='filter[labels]=Type1:Value1;Type2:Value2'
         )
 
     @patch.object(requests, 'get')

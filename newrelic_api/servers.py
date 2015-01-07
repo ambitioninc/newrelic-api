@@ -7,7 +7,7 @@ class Servers(Resource):
     """
     An interface for interacting with the NewRelic server API.
     """
-    def list(self, filter_name=None, filter_ids=None, page=None):
+    def list(self, filter_name=None, filter_ids=None, filter_labels=None, page=None):
         """
         This API endpoint returns a paginated list of the Servers
         associated with your New Relic account. Servers can be filtered
@@ -18,6 +18,9 @@ class Servers(Resource):
 
         :type filter_ids: list of ints
         :param filter_ids: Filter by server ids
+
+        :type filter_labels: dict of label type: value pairs
+        :param filter_labels: Filter by server labels
 
         :type page: int
         :param page: Pagination index
@@ -51,9 +54,13 @@ class Servers(Resource):
             }
 
         """
+        if filter_labels:
+            label_param = ';'.join(['{}:{}'.format(label, value) for label, value in filter_labels.items()])
+
         filters = [
             'filter[name]={0}'.format(filter_name) if filter_name else None,
             'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
+            'filter[labels]={0}'.format(label_param) if filter_labels else None,
             'page={0}'.format(page) if page else None
         ]
 
