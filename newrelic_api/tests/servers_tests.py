@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from unittest import TestCase
 
 from mock import patch, Mock
@@ -144,7 +145,9 @@ class NRServersTests(TestCase):
         mock_get.return_value = mock_response
 
         # Call the method
-        response = self.server.list(filter_labels={'Type1': 'Value1', 'Type2': 'Value2'})
+        # Use ordered dict to guarantee ordering of labels in query param
+        labels = OrderedDict((('Type1', 'Value1'), ('Type2', 'Value2')))
+        response = self.server.list(filter_labels=labels)
 
         self.assertIsInstance(response, dict)
         mock_get.assert_called_once_with(
