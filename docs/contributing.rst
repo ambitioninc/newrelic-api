@@ -57,8 +57,7 @@ Building the docs
 When in the project directory::
 
     $ pip install -r requirements/docs.txt
-    $ pip uninstall -y newrelic-api && python setup.py install
-    $ cd docs && make html
+    $ python setup.py build_sphinx
     $ open docs/_build/html/index.html
 
 Release Checklist

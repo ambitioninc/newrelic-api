@@ -59,8 +59,8 @@ source_suffix = '.rst'
 master_doc = 'toc'
 
 # General information about the project.
-project = u'newrelic-api'
-copyright = u'2014, Micah Hausler'
+project = 'newrelic-api'
+copyright = '2014, Micah Hausler'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -248,10 +248,10 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    ('index', 'newrelic-api', u'newrelic-api Documentation',
-     [u'Micah Hausler'], 1)
-]
+man_pages = [(
+    'index', 'newrelic-api', 'newrelic-api Documentation',
+    ['Micah Hausler'], 1
+)]
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
@@ -262,11 +262,11 @@ man_pages = [
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
-texinfo_documents = [
-  ('index', 'newrelic-api', u'newrelic-api Documentation',
-   u'Micah Hausler', 'newrelic-api', 'One line description of project.',
-   'Miscellaneous'),
-]
+texinfo_documents = [(
+    'index', 'newrelic-api', 'newrelic-api Documentation',
+    'Micah Hausler', 'newrelic-api', 'One line description of project.',
+    'Miscellaneous'
+)]
 
 # Documents to append as an appendix to all manuals.
 #texinfo_appendices = []
@@ -281,5 +281,5 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 intersphinx_mapping = {
-    'python': ('http://python.readthedocs.org/en/v2.7.2/', None),
+    'python': ('http://docs.python.org/3.4', None),
 }

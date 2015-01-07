@@ -2,13 +2,17 @@ import os
 from datetime import time
 from unittest import TestCase
 
-from mock import patch, call
+from mock import patch, call, Mock
+import requests
 
 from newrelic_api.base import Resource
-from newrelic_api.exceptions import ConfigurationException
+from newrelic_api.exceptions import ConfigurationException, NewRelicAPIServerException
 
 
 class ResourceTests(TestCase):
+
+    def setUp(self):
+        self.TEST_URL = 'https://www.google.com'
 
     @patch.object(os.environ, 'get', spec_set=True)
     def test_resource_with_arg(self, os_environ_mock):
@@ -64,6 +68,57 @@ class ResourceTests(TestCase):
             Resource()
 
         # os_environ_mock.assert_called_once_with('NEWRELIC_API_KEY')
+
+    @patch.object(requests, 'get')
+    def test_get_not_ok(self, mock_get):
+        """
+        Test ._get() handles a not ok response
+        """
+        mock_response = Mock(name='response', ok=False, status_code=500, text='Server Error')
+        mock_get.return_value = mock_response
+
+        resource = Resource(api_key='123')
+
+        with self.assertRaises(NewRelicAPIServerException):
+            resource._get(url=self.TEST_URL)
+
+        mock_get.assert_called_once_with(
+            url=self.TEST_URL,
+        )
+
+    @patch.object(requests, 'put')
+    def test_put_not_ok(self, mock_put):
+        """
+        Test ._put() handles a not ok response
+        """
+        mock_response = Mock(name='response', ok=False, status_code=500, text='Server Error')
+        mock_put.return_value = mock_response
+
+        resource = Resource(api_key='123')
+
+        with self.assertRaises(NewRelicAPIServerException):
+            resource._put(url=self.TEST_URL)
+
+        mock_put.assert_called_once_with(
+            url=self.TEST_URL,
+        )
+
+    @patch.object(requests, 'delete')
+    def test_delete_not_ok(self, mock_delete):
+        """
+        Test ._delete() handles a not ok response
+        """
+        mock_response = Mock(name='response', ok=False, status_code=500, text='Server Error')
+        mock_delete.return_value = mock_response
+
+        resource = Resource(api_key='123')
+
+        with self.assertRaises(NewRelicAPIServerException):
+            resource._delete(url=self.TEST_URL)
+
+        mock_delete.assert_called_once_with(
+            url=self.TEST_URL,
+        )
 
     def test_build_param_string(self):
         """
