@@ -1,5 +1,3 @@
-import requests
-
 from .base import Resource
 
 
@@ -81,12 +79,11 @@ class AlertPolicies(Resource):
             'page={0}'.format(page) if page else None
         ]
 
-        response = requests.get(
+        return self._get(
             url='{0}alert_policies.json'.format(self.URL),
             headers=self.headers,
             params=self.build_param_string(filters)
         )
-        return response.json()
 
     def show(self, id):
         """
@@ -134,11 +131,10 @@ class AlertPolicies(Resource):
             }
 
         """
-        response = requests.get(
+        return self._get(
             url='{0}alert_policies/{1}.json'.format(self.URL, id),
             headers=self.headers,
         )
-        return response.json()
 
     def update(self, id, policy_update):
         """
@@ -226,9 +222,8 @@ class AlertPolicies(Resource):
             }
 
         """
-        response = requests.put(
+        return self._put(
             url='{0}alert_policies/{1}.json'.format(self.URL, id),
             headers=self.headers,
             data=policy_update
         )
-        return response.json()

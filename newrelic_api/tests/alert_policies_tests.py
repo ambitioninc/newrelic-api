@@ -1,3 +1,4 @@
+import json
 from unittest import TestCase
 
 from mock import patch, Mock
@@ -194,5 +195,5 @@ class NRAlertPoliciesTests(TestCase):
         mock_put.assert_called_once_with(
             url='https://api.newrelic.com/v2/alert_policies/333114.json',
             headers=self.policies.headers,
-            data=self.policy_show_response
+            data=json.dumps(self.policy_show_response)
         )

@@ -1,5 +1,3 @@
-import requests
-
 from .base import Resource
 
 
@@ -55,19 +53,16 @@ class KeyTransactions(Resource):
             }
 
         """
-
         filters = [
             'filter[name]={0}'.format(filter_name) if filter_name else None,
             'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
             'page={0}'.format(page) if page else None
         ]
-
-        response = requests.get(
+        return self._get(
             url='{0}key_transactions.json'.format(self.URL),
             headers=self.headers,
             params=self.build_param_string(filters)
         )
-        return response.json()
 
     def show(self, id):
         """
@@ -106,11 +101,10 @@ class KeyTransactions(Resource):
             }
 
         """
-        response = requests.get(
+        return self._get(
             url='{root}key_transactions/{id}.json'.format(
                 root=self.URL,
                 id=id
             ),
             headers=self.headers,
         )
-        return response.json()

@@ -1,5 +1,3 @@
-import requests
-
 from .base import Resource
 
 
@@ -7,7 +5,7 @@ class Servers(Resource):
     """
     An interface for interacting with the NewRelic server API.
     """
-    def list(self, filter_name=None, filter_ids=None, page=None):
+    def list(self, filter_name=None, filter_ids=None, filter_labels=None, page=None):
         """
         This API endpoint returns a paginated list of the Servers
         associated with your New Relic account. Servers can be filtered
@@ -18,6 +16,9 @@ class Servers(Resource):
 
         :type filter_ids: list of ints
         :param filter_ids: Filter by server ids
+
+        :type filter_labels: dict of label type: value pairs
+        :param filter_labels: Filter by server labels
 
         :type page: int
         :param page: Pagination index
@@ -51,18 +52,21 @@ class Servers(Resource):
             }
 
         """
+        if filter_labels:
+            label_param = ';'.join(['{}:{}'.format(label, value) for label, value in filter_labels.items()])
+
         filters = [
             'filter[name]={0}'.format(filter_name) if filter_name else None,
             'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
+            'filter[labels]={0}'.format(label_param) if filter_labels else None,
             'page={0}'.format(page) if page else None
         ]
 
-        response = requests.get(
+        return self._get(
             url='{0}servers.json'.format(self.URL),
             headers=self.headers,
             params=self.build_param_string(filters)
         )
-        return response.json()
 
     def show(self, id):
         """
@@ -98,11 +102,10 @@ class Servers(Resource):
             }
 
         """
-        response = requests.get(
+        return self._get(
             url='{0}servers/{1}.json'.format(self.URL, id),
             headers=self.headers,
         )
-        return response.json()
 
     def update(self, id, name=None):
         """
@@ -149,12 +152,11 @@ class Servers(Resource):
             }
         }
 
-        response = requests.put(
+        return self._put(
             url='{0}servers/{1}.json'.format(self.URL, id),
             headers=self.headers,
             data=data
         )
-        return response.json()
 
     def delete(self, id):
         """
@@ -194,13 +196,12 @@ class Servers(Resource):
             }
 
         """
-        response = requests.delete(
+        return self._delete(
             url='{0}servers/{1}.json'.format(
                 self.URL,
                 id),
             headers=self.headers,
         )
-        return response.json()
 
     def metric_names(self, id, name=None, page=None):
         """
@@ -235,12 +236,11 @@ class Servers(Resource):
             'page={0}'.format(page) if page else None
         ]
 
-        response = requests.get(
+        return self._get(
             url='{0}servers/{1}/metrics.json'.format(self.URL, id),
             headers=self.headers,
             params=self.build_param_string(params)
         )
-        return response.json()
 
     def metric_data(
             self, id, names, values=None, from_dt=None, to_dt=None,
@@ -310,9 +310,8 @@ class Servers(Resource):
         if values:
             params += ['values[]={0}'.format(value) for value in values]
 
-        response = requests.get(
+        return self._get(
             url='{0}servers/{1}/metrics/data.json'.format(self.URL, id),
             headers=self.headers,
             params=self.build_param_string(params)
         )
-        return response.json()
