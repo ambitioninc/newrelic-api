@@ -22,7 +22,8 @@ class KeyTransactions(Resource):
         :param page: Pagination index
 
         :rtype: dict
-        :return: The JSON response of the API
+        :return: The JSON response of the API, with an additional 'pages' key
+            if there are paginated results
 
         ::
 
@@ -49,7 +50,17 @@ class KeyTransactions(Resource):
                             "application": "integer"
                         }
                     }
-                ]
+                ],
+                "pages": {
+                    "last": {
+                        "url": "https://api.newrelic.com/v2/key_transactions.json?page=2",
+                        "rel": "last"
+                    },
+                    "next": {
+                        "url": "https://api.newrelic.com/v2/key_transactions.json?page=2",
+                        "rel": "next"
+                    }
+                }
             }
 
         """

@@ -31,7 +31,8 @@ class AlertPolicies(Resource):
         :param page: Pagination index
 
         :rtype: dict
-        :return: The JSON response of the API
+        :return: The JSON response of the API, with an additional 'pages' key
+            if there are paginated results
 
         ::
 
@@ -67,7 +68,17 @@ class AlertPolicies(Resource):
                             ]
                         }
                     }
-                ]
+                ],
+                "pages": {
+                    "last": {
+                        "url": "https://api.newrelic.com/v2/alert_policies.json?page=2",
+                        "rel": "last"
+                    },
+                    "next": {
+                        "url": "https://api.newrelic.com/v2/alert_policies.json?page=2",
+                        "rel": "next"
+                    }
+                }
             }
 
         """

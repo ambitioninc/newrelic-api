@@ -45,7 +45,13 @@ class Resource(object):
         response = requests.get(*args, **kwargs)
         if not response.ok:
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
-        return response.json()
+
+        json_response = response.json()
+
+        if response.links:
+            json_response['pages'] = response.links
+
+        return json_response
 
     def _put(self, *args, **kwargs):
         """

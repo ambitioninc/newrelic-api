@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+v0.1.4
+------
+
+* Added `pages` in response for paginated responses
+
 v1.0.3
 ------
 

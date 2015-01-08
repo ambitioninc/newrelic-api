@@ -22,7 +22,8 @@ class NotificationChannels(Resource):
         :param page: Pagination index
 
         :rtype: dict
-        :return: The JSON response of the API
+        :return: The JSON response of the API, with an additional 'pages' key
+            if there are paginated results
         """
         filters = [
             'filter[type]={0}'.format(','.join(filter_type)) if filter_type else None,
