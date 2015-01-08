@@ -62,7 +62,7 @@ class Labels(Resource):
     def create(self, name, category, applications=None, servers=None):
         """
         This API endpoint will create a new label with the provided name and
-            category
+        category
 
         :type name: str
         :param name: The name of the label
@@ -119,7 +119,7 @@ class Labels(Resource):
     def delete(self, key):
         """
         When applications are provided, this endpoint will remove those
-            applications from the label.
+        applications from the label.
 
         When no applications are provided, this endpoint will remove the label.
 

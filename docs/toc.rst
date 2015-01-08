@@ -12,8 +12,10 @@ Table of Contents
    ref/applications
    ref/application_hosts
    ref/application_instances
+   ref/browser_applications
    ref/components
    ref/key_transactions
+   ref/labels
    ref/notification_channels
    ref/plugins
    ref/servers
