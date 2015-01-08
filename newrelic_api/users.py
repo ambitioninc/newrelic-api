@@ -21,7 +21,32 @@ class Users(Resource):
         :param page: Pagination index
 
         :rtype: dict
-        :return: The JSON response of the API
+        :return: The JSON response of the API, with an additional 'pages' key
+            if there are paginated results
+
+        ::
+
+            {
+                "users": [
+                    {
+                        "id": "integer",
+                        "first_name": "string",
+                        "last_name": "string",
+                        "email": "string",
+                        "role": "string"
+                    }
+                ],
+                "pages": {
+                    "last": {
+                        "url": "https://api.newrelic.com/v2/users.json?page=2",
+                        "rel": "last"
+                    },
+                    "next": {
+                        "url": "https://api.newrelic.com/v2/users.json?page=2",
+                        "rel": "next"
+                    }
+                }
+            }
         """
         filters = [
             'filter[email]={0}'.format(filter_email) if filter_email else None,
@@ -44,6 +69,19 @@ class Users(Resource):
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "user": {
+                    "id": "integer",
+                    "first_name": "string",
+                    "last_name": "string",
+                    "email": "string",
+                    "role": "string"
+                }
+            }
+
         """
         return self._get(
             url='{0}users/{1}.json'.format(self.URL, id),

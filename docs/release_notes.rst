@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v1.0.4
+------
+
+* Added ``pages`` in response for paginated responses
+* Added Labels and Browser Application support
+
 v1.0.3
 ------
 
