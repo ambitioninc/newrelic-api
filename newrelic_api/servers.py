@@ -24,7 +24,8 @@ class Servers(Resource):
         :param page: Pagination index
 
         :rtype: dict
-        :return: The JSON response of the API
+        :return: The JSON response of the API, with an additional 'pages' key
+            if there are paginated results
 
         ::
 
@@ -48,10 +49,22 @@ class Servers(Resource):
                             "fullest_disk_free": "integer"
                         }
                     }
-                ]
+                ],
+                "pages": {
+                    "last": {
+                        "url": "https://api.newrelic.com/v2/servers.json?page=2",
+                        "rel": "last"
+                    },
+                    "next": {
+                        "url": "https://api.newrelic.com/v2/servers.json?page=2",
+                        "rel": "next"
+                    }
+                }
             }
 
         """
+        label_param = ''
+
         if filter_labels:
             label_param = ';'.join(['{}:{}'.format(label, value) for label, value in filter_labels.items()])
 
@@ -217,16 +230,29 @@ class Servers(Resource):
         :param page: Pagination index
 
         :rtype: dict
-        :return: The JSON response of the API
+        :return: The JSON response of the API, with an additional 'pages' key
+            if there are paginated results
 
         ::
 
             {
-                "metric": {
-                    "name": "string",
-                    "values": [
-                        "string"
-                    ]
+                "metrics": [
+                    {
+                        "name": "string",
+                        "values": [
+                            "string"
+                        ]
+                    }
+                ],
+                "pages": {
+                    "last": {
+                        "url": "https://api.newrelic.com/v2/servers/{server_id}/metrics.json?page=2",
+                        "rel": "last"
+                    },
+                    "next": {
+                        "url": "https://api.newrelic.com/v2/servers/{server_id}/metrics.json?page=2",
+                        "rel": "next"
+                    }
                 }
             }
 

@@ -45,7 +45,13 @@ class Resource(object):
         response = requests.get(*args, **kwargs)
         if not response.ok:
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
-        return response.json()
+
+        json_response = response.json()
+
+        if response.links:
+            json_response['pages'] = response.links
+
+        return json_response
 
     def _put(self, *args, **kwargs):
         """
@@ -61,6 +67,24 @@ class Resource(object):
         if 'data' in kwargs:
             kwargs['data'] = json.dumps(kwargs['data'])
         response = requests.put(*args, **kwargs)
+        if not response.ok:
+            raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
+        return response.json()
+
+    def _post(self, *args, **kwargs):
+        """
+        A wrapper for posting things. It will also json encode your 'data' parameter
+
+        :returns: The response of your post
+        :rtype: dict
+
+        :raises: This will raise a
+            :class:`NewRelicAPIServerException<newrelic_api.exceptions.NewRelicAPIServerException>`
+            if there is an error from New Relic
+        """
+        if 'data' in kwargs:
+            kwargs['data'] = json.dumps(kwargs['data'])
+        response = requests.post(*args, **kwargs)
         if not response.ok:
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
         return response.json()

@@ -25,7 +25,8 @@ class Plugins(Resource):
         :param page: Pagination index
 
         :rtype: dict
-        :return: The JSON response of the API
+        :return: The JSON response of the API, with an additional 'pages' key
+            if there are paginated results
 
         ::
 
@@ -71,7 +72,17 @@ class Plugins(Resource):
                             }
                         ]
                     }
-                ]
+                ],
+                "pages": {
+                    "last": {
+                        "url": "https://api.newrelic.com/v2/plugins.json?page=2",
+                        "rel": "last"
+                    },
+                    "next": {
+                        "url": "https://api.newrelic.com/v2/plugins.json?page=2",
+                        "rel": "next"
+                    }
+                }
             }
 
         """
