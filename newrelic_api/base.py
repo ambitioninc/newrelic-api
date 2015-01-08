@@ -71,6 +71,24 @@ class Resource(object):
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
         return response.json()
 
+    def _post(self, *args, **kwargs):
+        """
+        A wrapper for posting things. It will also json encode your 'data' parameter
+
+        :returns: The response of your post
+        :rtype: dict
+
+        :raises: This will raise a
+            :class:`NewRelicAPIServerException<newrelic_api.exceptions.NewRelicAPIServerException>`
+            if there is an error from New Relic
+        """
+        if 'data' in kwargs:
+            kwargs['data'] = json.dumps(kwargs['data'])
+        response = requests.post(*args, **kwargs)
+        if not response.ok:
+            raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
+        return response.json()
+
     def _delete(self, *args, **kwargs):
         """
         A wrapper for deleting things

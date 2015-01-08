@@ -70,6 +70,105 @@ class ResourceTests(TestCase):
         # os_environ_mock.assert_called_once_with('NEWRELIC_API_KEY')
 
     @patch.object(requests, 'get')
+    def test_get_ok_with_links(self, mock_get):
+        """
+        Test ._get() handles an ok response with links
+        """
+        mock_response = Mock(
+            name='response',
+            ok=True,
+            status_code=200,
+            links={
+                "last": {
+                    "url": "https://api.newrelic.com/v2/servers.json?page=2",
+                    "rel": "last"
+                },
+                "next": {
+                    "url": "https://api.newrelic.com/v2/servers.json?page=2",
+                    "rel": "next"
+                }
+            }
+        )
+        mock_response.json.return_value = {
+            "servers": [
+                {
+                    "id": "integer",
+                    "account_id": "integer",
+                    "name": "string",
+                    "host": "string",
+                    "reporting": "boolean",
+                    "last_reported_at": "time",
+                    "summary": {
+                        "cpu": "float",
+                        "cpu_stolen": "float",
+                        "disk_io": "float",
+                        "memory": "float",
+                        "memory_used": "integer",
+                        "memory_total": "integer",
+                        "fullest_disk": "float",
+                        "fullest_disk_free": "integer"
+                    }
+                }
+            ]
+        }
+
+        mock_get.return_value = mock_response
+
+        resource = Resource(api_key='123')
+
+        response = resource._get(url=self.TEST_URL)
+
+        self.assertIn(
+            'pages',
+            list(response.keys())
+        )
+
+    @patch.object(requests, 'get')
+    def test_get_ok_without_links(self, mock_get):
+        """
+        Test ._get() handles an ok response with links
+        """
+        mock_response = Mock(
+            name='response',
+            ok=True,
+            status_code=200,
+            links=None
+        )
+        mock_response.json.return_value = {
+            "servers": [
+                {
+                    "id": "integer",
+                    "account_id": "integer",
+                    "name": "string",
+                    "host": "string",
+                    "reporting": "boolean",
+                    "last_reported_at": "time",
+                    "summary": {
+                        "cpu": "float",
+                        "cpu_stolen": "float",
+                        "disk_io": "float",
+                        "memory": "float",
+                        "memory_used": "integer",
+                        "memory_total": "integer",
+                        "fullest_disk": "float",
+                        "fullest_disk_free": "integer"
+                    }
+                }
+            ]
+        }
+
+        mock_get.return_value = mock_response
+
+        resource = Resource(api_key='123')
+
+        response = resource._get(url=self.TEST_URL)
+
+        self.assertNotIn(
+            'pages',
+            list(response.keys())
+        )
+
+    @patch.object(requests, 'get')
     def test_get_not_ok(self, mock_get):
         """
         Test ._get() handles a not ok response
@@ -100,6 +199,23 @@ class ResourceTests(TestCase):
             resource._put(url=self.TEST_URL)
 
         mock_put.assert_called_once_with(
+            url=self.TEST_URL,
+        )
+
+    @patch.object(requests, 'post')
+    def test_post_not_ok(self, mock_post):
+        """
+        Test ._post() handles a not ok response
+        """
+        mock_response = Mock(name='response', ok=False, status_code=500, text='Server Error')
+        mock_post.return_value = mock_response
+
+        resource = Resource(api_key='123')
+
+        with self.assertRaises(NewRelicAPIServerException):
+            resource._post(url=self.TEST_URL)
+
+        mock_post.assert_called_once_with(
             url=self.TEST_URL,
         )
 
