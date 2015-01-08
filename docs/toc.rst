@@ -19,7 +19,6 @@ Table of Contents
    ref/notification_channels
    ref/plugins
    ref/servers
-   ref/servers
    ref/users
    ref/base
    ref/exceptions
