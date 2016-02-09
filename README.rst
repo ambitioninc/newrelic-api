@@ -10,8 +10,10 @@ newrelic-api: A Python interface to New Relic's API
 newrelic-api is a package for easily interacting with New Relic's API in a
 concise, pythonic way. For full documentation on each endpoint, please see
 `New Relic's API explorer`_. This is based off of the v2 API.
+This client doesn't catch up `Some recent changes`_ and in the progress now.
 
 .. _New Relic's API explorer: https://rpm.newrelic.com/api/explore/
+.. _Some recent changes: https://blog.newrelic.com/2015/11/12/announcement-api-additions/
 
 
 Installation
