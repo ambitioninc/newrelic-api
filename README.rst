@@ -1,16 +1,8 @@
-.. image:: https://travis-ci.org/ambitioninc/newrelic-api.png
-   :target: https://travis-ci.org/ambitioninc/newrelic-api
+.. image:: https://travis-ci.org/gengo/newrelic-api.png
+   :target: https://travis-ci.org/gengo/newrelic-api
 
-.. image:: https://coveralls.io/repos/ambitioninc/newrelic-api/badge.png?branch=develop
-    :target: https://coveralls.io/r/ambitioninc/newrelic-api?branch=develop
-
-.. image:: https://pypip.in/v/newrelic-api/badge.png
-    :target: https://crate.io/packages/newrelic-api/
-    :alt: Latest PyPI version
-
-.. image:: https://pypip.in/d/newrelic-api/badge.png
-    :target: https://crate.io/packages/newrelic-api/
-    :alt: Number of PyPI downloads
+.. image:: https://coveralls.io/repos/gengo/newrelic-api/badge.png?branch=master
+    :target: https://coveralls.io/r/gengo/newrelic-api?branch=master
 
 newrelic-api: A Python interface to New Relic's API
 ===================================================
@@ -21,25 +13,16 @@ concise, pythonic way. For full documentation on each endpoint, please see
 
 .. _New Relic's API explorer: https://rpm.newrelic.com/api/explore/
 
+
 Installation
 ============
 
-To install, install via pip or easy_install::
-
-    $ pip install newrelic-api
-    or
-    $ easy_install newrelic-api
-
 If you want to install it from source, grab the git repository and run setup.py::
 
- $ git clone git://github.com/ambitioninc/newrelic-api.git
+ $ git clone git://github.com/gengo/newrelic-api.git
  $ cd newrelic-api
  $ python setup.py install
 
-Documentation
-=============
-
-All documentation can be found at http://new-relic-api.readthedocs.org
 
 Author
 ======

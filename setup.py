@@ -15,11 +15,11 @@ def get_version():
 
 
 setup(
-    name='newrelic-api',
+    name='newrelic-api-gengo',
     version=get_version(),
     description='A python interface to the New Relic API v2',
     long_description=open('README.rst').read(),
-    url='https://github.com/ambitioninc/newrelic-api',
+    url='https://github.com/gengo/newrelic-api',
     author='Micah Hausler',
     author_email='opensource@ambition.com',
     packages=find_packages(),
