@@ -108,7 +108,7 @@ class AlertConditions(Resource):
             {
                 "condition": {
                     "id": "integer",
-                    "condition_type": "string",
+                    "type": "string",
                     "name": "string",
                     "enabled": "boolean",
                     "entities": [
@@ -145,16 +145,20 @@ class AlertConditions(Resource):
                 'Target alert condition is not included in that policy.'
                 'policy_id: {}, alert_condition_id {}'.format(policy_id, alert_condition_id))
 
+        print target_condition
         data = {
             'condition': {
-                'condition_type': condition_type or target_condition['condition_type'],
+                'type': condition_type or target_condition['type'],
                 'name': name or target_condition['name'],
                 'enabled': enabled or target_condition['enabled'],
                 'entities': entities or target_condition['entities'],
-                'metric': metric or target_condition['metric'],
                 'terms': terms or target_condition['terms'],
+                'metric': target_condition['metric'],
             }
         }
+
+        if target_condition.get('user_defined'):
+            data['condition']['user_defined'] = target_condition['user_defined']
 
         return self._put(
             url='{0}alerts_conditions/{1}.json'.format(self.URL, alert_condition_id),
