@@ -16,7 +16,7 @@ class NRAlertConditionsTests(TestCase):
             "conditions": [
                 {
                     "id": "100",
-                    "condition_type": "servers_metric",
+                    "type": "servers_metric",
                     "name": "CPU usage alert",
                     "enabled": True,
                     "entities": [
@@ -39,7 +39,7 @@ class NRAlertConditionsTests(TestCase):
         self.update_success_response = {
             "condition": {
                 "id": "100",
-                "condition_type": "servers_metric",
+                "type": "servers_metric",
                 "name": "CPU usage alert",
                 "enabled": True,
                 "entities": [
