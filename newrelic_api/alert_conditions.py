@@ -145,7 +145,6 @@ class AlertConditions(Resource):
                 'Target alert condition is not included in that policy.'
                 'policy_id: {}, alert_condition_id {}'.format(policy_id, alert_condition_id))
 
-        print target_condition
         data = {
             'condition': {
                 'type': condition_type or target_condition['type'],
