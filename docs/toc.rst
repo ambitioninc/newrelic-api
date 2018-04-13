@@ -16,6 +16,7 @@ Table of Contents
    ref/components
    ref/key_transactions
    ref/labels
+   ref/mobile_applications
    ref/notification_channels
    ref/plugins
    ref/servers

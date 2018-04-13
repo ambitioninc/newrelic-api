@@ -368,7 +368,7 @@ class Applications(Resource):
 
     def metric_data(
             self, id, names, values=None, from_dt=None, to_dt=None,
-            summarize=False):
+            summarize=False, period=None):
         """
         This API endpoint returns a list of values for each of the requested
         metrics. The list of available metrics can be returned using the Metric
@@ -398,6 +398,9 @@ class Applications(Resource):
 
         :type summarize: bool
         :param summarize: Summarize the data
+
+        :type period: int
+        :param period: Period of timeslices in seconds
 
         :rtype: dict
         :return: The JSON response of the API
@@ -433,6 +436,9 @@ class Applications(Resource):
         params += ['names[]={0}'.format(name) for name in names]
         if values:
             params += ['values[]={0}'.format(value) for value in values]
+
+        if period:
+            params += ['period={0}'.format(period)]
 
         return self._get(
             url='{0}applications/{1}/metrics/data.json'.format(self.URL, id),

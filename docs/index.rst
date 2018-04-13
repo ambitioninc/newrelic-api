@@ -18,6 +18,7 @@ Currently Supported Resources
 * Components (:doc:`API Reference <ref/components>`)
 * Key Transactions (:doc:`API Reference <ref/key_transactions>`)
 * Labels (:doc:`API Reference <ref/labels>`)
+* Mobile Applications (:doc:`API Reference <ref/mobile_applications>`)
 * Notification Channels (:doc:`API Reference <ref/notification_channels>`)
 * Plugins (:doc:`API Reference <ref/plugins>`)
 * Servers (:doc:`API Reference <ref/servers>`)

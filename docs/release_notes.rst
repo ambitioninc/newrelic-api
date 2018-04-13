@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v1.0.5
+------
+
+* Added Mobile Applications support
+* Added support for period parameter on Applications get_metric_data method
+
 v1.0.4
 ------
 
