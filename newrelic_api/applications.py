@@ -7,6 +7,7 @@ class Applications(Resource):
     """
     def list(
             self, filter_name=None, filter_ids=None, filter_language=None,
+            sort_health_status=None,
             page=None):
         """
         This API endpoint returns a paginated list of the Applications
@@ -22,6 +23,9 @@ class Applications(Resource):
 
         :type filter_language: str
         :param filter_language: Filter by application language
+        
+        :type sort_health_status: Boolean
+        :param sort_health_status: Sort by health status.
 
         :type page: int
         :param page: Pagination index
@@ -90,6 +94,7 @@ class Applications(Resource):
             'filter[name]={0}'.format(filter_name) if filter_name else None,
             'filter[language]={0}'.format(','.join(filter_language)) if filter_language else None,
             'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
+            'sort[health_status]=true' if sort_health_status else None,
             'page={0}'.format(page) if page else None
         ]
         return self._get(
