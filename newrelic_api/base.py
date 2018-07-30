@@ -28,7 +28,7 @@ class Resource(object):
 
         self.headers = {
             'Content-type': 'application/json',
-            'X-Api-Key': self.api_key,
+            'NewRelic-Api-Key': self.api_key,
         }
 
     def _get(self, *args, **kwargs):
