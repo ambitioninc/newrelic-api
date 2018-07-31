@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from mock import patch, Mock
+import json
 import requests
 
 from newrelic_api.alert_policies import AlertPolicies
@@ -15,11 +16,14 @@ class NRAlertPoliciesTests(TestCase):
             "policies": [
                 {
                     "id": 12345,
-                    "rollup_strategy": "PER_CONDITION_AND_TARGET",
+                    "incident_preference": "PER_CONDITION_AND_TARGET",
                     "name": "Default Server Policy",
                     "created_at": 123456789012,
                 }
             ]
+        }
+        self.policy_single_response = {
+            'policy': self.policies_list_response['policies'][0]
         }
 
     @patch.object(requests, 'get')
@@ -67,3 +71,63 @@ class NRAlertPoliciesTests(TestCase):
         with self.assertRaises(ValueError):
             # Call the method
             self.policies.list()
+
+    @patch.object(requests, 'post')
+    def test_create_success(self, mock_post):
+        """
+        Test alert policies .create() calls put with correct parameters
+        """
+        self.policies.create(
+            name=self.policy_single_response['policy']['name'],
+            incident_preference=self.policy_single_response['policy']['incident_preference']
+        )
+
+        mock_post.assert_called_once_with(
+            url='https://api.newrelic.com/v2/alerts_policies.json',
+            headers=self.policies.headers,
+            data=json.dumps({
+                "policy": {
+                    "name": self.policy_single_response['policy']['name'],
+                    "incident_preference": self.policy_single_response['policy']['incident_preference']
+                }
+            })
+        )
+
+    @patch.object(requests, 'put')
+    def test_update_success(self, mock_put):
+        """
+        Test alert policies .update() calls put with correct parameters
+        """
+        self.policies.update(
+            id=self.policy_single_response['policy']['id'],
+            name=self.policy_single_response['policy']['name'],
+            incident_preference=self.policy_single_response['policy']['incident_preference']
+        )
+
+        mock_put.assert_called_once_with(
+            url='https://api.newrelic.com/v2/alerts_policies/{0}.json'.format(
+                self.policy_single_response['policy']['id']
+            ),
+            headers=self.policies.headers,
+            data=json.dumps({
+                "policy": {
+                    "name": self.policy_single_response['policy']['name'],
+                    "incident_preference": self.policy_single_response['policy']['incident_preference']
+                }
+            })
+        )
+
+    @patch.object(requests, 'delete')
+    def test_delete_success(self, mock_delete):
+        """
+        Test alert policies .delete() success
+        """
+
+        self.policies.delete(id=self.policy_single_response['policy']['id'])
+
+        mock_delete.assert_called_once_with(
+            url='https://api.newrelic.com/v2/alerts_policies/{0}.json'.format(
+                self.policy_single_response['policy']['id']
+            ),
+            headers=self.policies.headers
+        )
