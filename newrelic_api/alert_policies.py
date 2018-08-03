@@ -159,3 +159,80 @@ class AlertPolicies(Resource):
             url='{0}alerts_policies/{1}.json'.format(self.URL, id),
             headers=self.headers
         )
+
+    def associate_with_notification_channel(self, id, channel_id):
+        """
+        This API endpoint allows you to associate an alert policy with an
+            notification channel
+
+        :type id: integer
+        :param id: The id of the policy
+
+        :type channel_id: integer
+        :param channel_id: The id of the notification channel
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "policy": {
+                    "channel_ids": "list",
+                    "id": "integer"
+                }
+            }
+
+        """
+
+        data = 'policy_id={0}&channel_ids={1}'.format(id, channel_id)
+
+        return self._put(
+            url='{0}alerts_policy_channels.json?policy_id={1}&channel_ids={2}'.format(
+                self.URL,
+                id,
+                channel_id
+            ),
+            headers=self.headers
+        )
+
+    def dissociate_from_notification_channel(self, id, channel_id):
+        """
+        This API endpoint allows you to dissociate an alert policy from an
+            notification channel
+
+        :type id: integer
+        :param id: The id of the policy
+
+        :type channel_id: integer
+        :param channel_id: The id of the notification channel
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+               "channel":{
+                  "configuration": "hash",
+                  "type": "string",
+                  "id": "integer",
+                  "links":{
+                     "policy_ids": "list"
+                  },
+                  "name": "string"
+               }
+            }
+
+        """
+
+        data = 'policy_id={0}&channel_ids={1}'.format(id, channel_id)
+
+        return self._delete(
+            url='{0}alerts_policy_channels.json?policy_id={1}&channel_id={2}'.format(
+                self.URL,
+                id,
+                channel_id
+            ),
+            headers=self.headers
+        )

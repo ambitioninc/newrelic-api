@@ -14,13 +14,8 @@ branches:
     - develop
     - master
 
-install:
-  - pip install coveralls nose flake8
-  - python setup.py install
-
 script:
-  - flake8 .
-  - python setup.py nosetests
+  - make test
 
 after_success:
   coveralls

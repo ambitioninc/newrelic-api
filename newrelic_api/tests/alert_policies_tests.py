@@ -23,7 +23,20 @@ class NRAlertPoliciesTests(TestCase):
             ]
         }
         self.policy_single_response = {
-            'policy': self.policies_list_response['policies'][0]
+            "policy": self.policies_list_response['policies'][0]
+        }
+        self.channel_single_response = {
+            "channel": {
+                "id": 111222,
+                "type": "user",
+                "name": "Some User",
+                "links": {
+                    "policy_ids": []
+                },
+                "configuration": {
+                    "user": 222333
+                }
+            }
         }
 
     @patch.object(requests, 'get')
@@ -128,6 +141,43 @@ class NRAlertPoliciesTests(TestCase):
         mock_delete.assert_called_once_with(
             url='https://api.newrelic.com/v2/alerts_policies/{0}.json'.format(
                 self.policy_single_response['policy']['id']
+            ),
+            headers=self.policies.headers
+        )
+
+    @patch.object(requests, 'put')
+    def test_associate_with_notification_channel_success(self, mock_put):
+        """
+        Test alert policies .associate_with_notification_channel() calls put with correct parameters
+        """
+        self.policies.associate_with_notification_channel(
+            id=self.policy_single_response['policy']['id'],
+            channel_id=self.channel_single_response['channel']['id'],
+        )
+
+        mock_put.assert_called_once_with(
+            url='https://api.newrelic.com/v2/alerts_policy_channels.json?policy_id={0}&channel_ids={1}'.format(
+                self.policy_single_response['policy']['id'],
+                self.channel_single_response['channel']['id']
+            ),
+            headers=self.policies.headers
+        )
+
+
+    @patch.object(requests, 'put')
+    def test_dissociate_from_notification_channel(self, mock_put):
+        """
+        Test alert policies .associate_with_notification_channel() calls put with correct parameters
+        """
+        self.policies.associate_with_notification_channel(
+            id=self.policy_single_response['policy']['id'],
+            channel_id=self.channel_single_response['channel']['id'],
+        )
+
+        mock_put.assert_called_once_with(
+            url='https://api.newrelic.com/v2/alerts_policy_channels.json?policy_id={0}&channel_ids={1}'.format(
+                self.policy_single_response['policy']['id'],
+                self.channel_single_response['channel']['id']
             ),
             headers=self.policies.headers
         )
