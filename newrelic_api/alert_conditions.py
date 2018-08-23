@@ -1,5 +1,5 @@
 from .base import Resource
-from newrelic_api.exceptions import NoEntityException
+from newrelic_api.exceptions import NoEntityException, ConfigurationException
 
 
 class AlertConditions(Resource):
@@ -33,26 +33,27 @@ class AlertConditions(Resource):
                 "conditions": [
                     {
                         "id": "integer",
-                        "condition_type": "string",
+                        "type": "string",
+                        "condition_scope":  "string",
                         "name": "string",
                         "enabled": "boolean",
                         "entities": [
-                          "integer"
+                            "integer"
                         ],
                         "metric": "string",
                         "runbook_url": "string",
                         "terms": [
-                          {
-                            "duration": "string",
-                            "operator": "string",
-                            "priority": "string",
-                            "threshold": "string",
-                            "time_function": "string"
-                          }
+                            {
+                                "duration": "string",
+                                "operator": "string",
+                                "priority": "string",
+                                "threshold": "string",
+                                "time_function": "string"
+                            }
                         ],
                         "user_defined": {
-                          "metric": "string",
-                          "value_function": "string"
+                            "metric": "string",
+                            "value_function": "string"
                         }
                     }
                 ]
@@ -71,30 +72,49 @@ class AlertConditions(Resource):
         )
 
     def update(
-            self, policy_id, alert_condition_id,
+            self, alert_condition_id, policy_id,
             condition_type=None,
+            condition_scope=None,
             name=None,
-            enabled=None,
             entities=None,
             metric=None,
-            terms=None):
+            terms=None,
+            user_defined=None,
+            enabled=None):
         """
         Updates any of the optional parameters of the alert condition
-
-        :type policy_id: int
-        :param policy_id: Alert policy id where target alert condition belongs to
 
         :type alert_condition_id: int
         :param alert_condition_id: Alerts condition id to update
 
+        :type policy_id: int
+        :param policy_id: Alert policy id where target alert condition belongs to
+
+        :type condition_type: str
+        :param condition_type: The type of the condition, can be apm_app_metric,
+            apm_kt_metric, servers_metric, browser_metric, mobile_metric
+
+        :type condition_scope: str
+        :param condition_scope: The scope of the condition, can be instance or application
+
         :type name: str
         :param name: The name of the server
 
-        :type enabled: bool
-        :param enabled: Whether to enable that alert condition
-
         :type entities: list[str]
         :param name: entity ids to which the alert condition is applied
+
+        :type : str
+        :param metric: The target metric
+
+        :type terms: list[hash]
+        :param terms: list of hashes containing threshold config for the alert
+
+        :type user_defined: hash
+        :param user_defined: hash containing threshold user_defined for the alert
+            required if metric is set to user_defined
+
+        :type enabled: bool
+        :param enabled: Whether to enable that alert condition
 
         :rtype: dict
         :return: The JSON response of the API
@@ -103,12 +123,17 @@ class AlertConditions(Resource):
             :class:`NewRelicAPIServerException<newrelic_api.exceptions.NoEntityException>`
             if target alert condition is not included in target policy
 
+        :raises: This will raise a
+            :class:`ConfigurationException<newrelic_api.exceptions.ConfigurationException>`
+            if metric is set as user_defined but user_defined config is not passed
+
         ::
 
             {
                 "condition": {
                     "id": "integer",
                     "type": "string",
+                    "condition_scope":  "string",
                     "name": "string",
                     "enabled": "boolean",
                     "entities": [
@@ -143,21 +168,38 @@ class AlertConditions(Resource):
         if target_condition is None:
             raise NoEntityException(
                 'Target alert condition is not included in that policy.'
-                'policy_id: {}, alert_condition_id {}'.format(policy_id, alert_condition_id))
+                'policy_id: {}, alert_condition_id {}'.format(policy_id, alert_condition_id)
+            )
 
         data = {
             'condition': {
                 'type': condition_type or target_condition['type'],
                 'name': name or target_condition['name'],
-                'enabled': enabled or target_condition['enabled'],
+                'enabled': enabled if enabled is not None else target_condition['enabled'],
                 'entities': entities or target_condition['entities'],
+                'condition_scope': condition_scope or target_condition['condition_scope'],
                 'terms': terms or target_condition['terms'],
-                'metric': target_condition['metric'],
+                'metric': metric or target_condition['metric'],
             }
         }
 
-        if target_condition.get('user_defined'):
-            data['condition']['user_defined'] = target_condition['user_defined']
+        if enabled is None:
+            data['condition']['enabled'] = target_condition['enabled']
+        else:
+            if enabled:
+                data['condition']['enabled'] = 'true'
+            else:
+                data['condition']['enabled'] = 'false'
+
+        if data['condition']['metric'] == 'user_defined':
+            if user_defined:
+                data['condition']['user_defined'] = user_defined
+            elif 'user_defined' in target_condition:
+                data['condition']['user_defined'] = target_condition['user_defined']
+            else:
+                raise ConfigurationException(
+                    'Metric is set as user_defined but no user_defined config specified'
+                )
 
         return self._put(
             url='{0}alerts_conditions/{1}.json'.format(self.URL, alert_condition_id),
@@ -165,5 +207,152 @@ class AlertConditions(Resource):
             data=data
         )
 
-    # TODO: implement create and delete
-    # See https://docs.newrelic.com/docs/alerts/new-relic-alerts-beta/getting-started/rest-api-calls-new-relic-alerts
+    def create(
+            self, policy_id,
+            condition_type,
+            condition_scope,
+            name,
+            entities,
+            metric,
+            terms,
+            user_defined=None,
+            enabled=True):
+        """
+        Creates an alert condition
+
+        :type policy_id: int
+        :param policy_id: Alert policy id where target alert condition belongs to
+
+        :type condition_type: str
+        :param condition_type: The type of the condition, can be apm_app_metric,
+            apm_kt_metric, servers_metric, browser_metric, mobile_metric
+
+        :type condition_scope: str
+        :param condition_scope: The scope of the condition, can be instance or application
+
+        :type name: str
+        :param name: The name of the server
+
+        :type entities: list[str]
+        :param name: entity ids to which the alert condition is applied
+
+        :type : str
+        :param metric: The target metric
+
+        :type terms: list[hash]
+        :param terms: list of hashes containing threshold config for the alert
+
+        :type user_defined: hash
+        :param user_defined: hash containing threshold user_defined for the alert
+            required if metric is set to user_defined
+
+        :type enabled: bool
+        :param enabled: Whether to enable that alert condition
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "condition": {
+                    "id": "integer",
+                    "type": "string",
+                    "condition_scope":  "string",
+                    "name": "string",
+                    "enabled": "boolean",
+                    "entities": [
+                        "integer"
+                    ],
+                    "metric": "string",
+                    "runbook_url": "string",
+                    "terms": [
+                        {
+                            "duration": "string",
+                            "operator": "string",
+                            "priority": "string",
+                            "threshold": "string",
+                            "time_function": "string"
+                        }
+                    ],
+                    "user_defined": {
+                        "metric": "string",
+                        "value_function": "string"
+                    }
+                }
+            }
+
+        """
+
+        data = {
+            'condition': {
+                'type': condition_type,
+                'name': name,
+                'enabled': 'true' if enabled else 'false',
+                'entities': entities,
+                'condition_scope': condition_scope,
+                'terms': terms,
+                'metric': metric
+            }
+        }
+
+        if metric == 'user_defined':
+            if user_defined:
+                data['condition']['user_defined'] = user_defined
+            else:
+                raise ConfigurationException(
+                    'Metric is set as user_defined but no user_defined config specified'
+                )
+
+        return self._post(
+            url='{0}alerts_conditions/policies/{1}.json'.format(self.URL, policy_id),
+            headers=self.headers,
+            data=data
+        )
+
+    def delete(self, alert_condition_id):
+        """
+        This API endpoint allows you to delete an alert condition
+
+        :type alert_condition_id: integer
+        :param alert_condition_id: Alert Condition ID
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "condition": {
+                    "id": "integer",
+                    "type": "string",
+                    "condition_scope":  "string",
+                    "name": "string",
+                    "enabled": "boolean",
+                    "entities": [
+                        "integer"
+                    ],
+                    "metric": "string",
+                    "runbook_url": "string",
+                    "terms": [
+                        {
+                            "duration": "string",
+                            "operator": "string",
+                            "priority": "string",
+                            "threshold": "string",
+                            "time_function": "string"
+                        }
+                    ],
+                    "user_defined": {
+                        "metric": "string",
+                        "value_function": "string"
+                    }
+                }
+            }
+
+        """
+
+        return self._delete(
+            url='{0}alerts_conditions/{1}.json'.format(self.URL, alert_condition_id),
+            headers=self.headers
+        )
