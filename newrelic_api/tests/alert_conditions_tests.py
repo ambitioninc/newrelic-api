@@ -18,6 +18,7 @@ class NRAlertConditionsTests(TestCase):
                     "id": "100",
                     "type": "servers_metric",
                     "name": "CPU usage alert",
+                    "condition_scope": "application",
                     "enabled": True,
                     "entities": [
                         "1234567"
@@ -36,11 +37,12 @@ class NRAlertConditionsTests(TestCase):
             ]
         }
 
-        self.update_success_response = {
+        self.single_success_response = {
             "condition": {
                 "id": "100",
                 "type": "servers_metric",
                 "name": "CPU usage alert",
+                "condition_scope": "application",
                 "enabled": True,
                 "entities": [
                     "1234567"
@@ -94,12 +96,27 @@ class NRAlertConditionsTests(TestCase):
         mock_list_response = Mock(name='response')
         mock_list_response.json.return_value = self.list_success_response
         mock_update_response = Mock(name='response')
-        mock_update_response.json.return_value = self.update_success_response
+        mock_update_response.json.return_value = self.single_success_response
         mock_get.return_value = mock_list_response
         mock_put.return_value = mock_update_response
 
         # Call the method
-        response = self.alert_conditions.update(policy_id=1, alert_condition_id=100, name='New Name')
+        response = self.alert_conditions.update(
+            alert_condition_id=100,
+            policy_id=1,
+            name='New Name',
+            condition_type='servers_metric',
+            condition_scope='application',
+            entities=['1234567'],
+            metric='cpu_percentage',
+            terms=[{
+                "duration": "5",
+                "operator": "above",
+                "priority": "above",
+                "threshold": "90",
+                "time_function": "all"
+            }]
+        )
 
         self.assertIsInstance(response, dict)
 
@@ -118,7 +135,10 @@ class NRAlertConditionsTests(TestCase):
 
         # Call the method
         with self.assertRaises(ValueError):
-            self.alert_conditions.update(policy_id=1, alert_condition_id=100, name='New Name')
+            self.alert_conditions.update(
+                alert_condition_id=100,
+                policy_id=1
+            )
 
     @patch.object(requests, 'get')
     @patch.object(requests, 'put')
@@ -129,10 +149,55 @@ class NRAlertConditionsTests(TestCase):
         mock_list_response = Mock(name='response')
         mock_list_response.json.return_value = self.list_success_response
         mock_update_response = Mock(name='response')
-        mock_update_response.json.return_value = self.update_success_response
+        mock_update_response.json.return_value = self.single_success_response
         mock_get.return_value = mock_list_response
         mock_put.return_value = mock_update_response
 
         with self.assertRaises(NoEntityException):
             # Call the method with non existing alert_condition_id
-            self.alert_conditions.update(policy_id=1, alert_condition_id=9999, name='New Name')
+            self.alert_conditions.update(
+                alert_condition_id=9999,
+                policy_id=1
+            )
+
+
+    @patch.object(requests, 'post')
+    def test_create_success(self, mock_post):
+        """
+        Test alerts_conditions .update() success
+        """
+        mock_create_response = Mock(name='response')
+        mock_create_response.json.return_value = self.single_success_response
+        mock_post.return_value = mock_create_response
+
+        # Call the method
+        response = self.alert_conditions.create(
+            policy_id=1,
+            name='New Name',
+            condition_type='servers_metric',
+            condition_scope='application',
+            entities=['1234567'],
+            metric='cpu_percentage',
+            terms=[{
+                "duration": "5",
+                "operator": "above",
+                "priority": "above",
+                "threshold": "90",
+                "time_function": "all"
+            }]
+        )
+
+        self.assertIsInstance(response, dict)
+
+    @patch.object(requests, 'delete')
+    def test_delete_success(self, mock_delete):
+        """
+        Test alert policies .delete() success
+        """
+
+        self.alert_conditions.delete(alert_condition_id=100)
+
+        mock_delete.assert_called_once_with(
+            url='https://api.newrelic.com/v2/alerts_conditions/100.json',
+            headers=self.alert_conditions.headers
+        )
