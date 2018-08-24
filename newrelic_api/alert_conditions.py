@@ -288,7 +288,7 @@ class AlertConditions(Resource):
             'condition': {
                 'type': condition_type,
                 'name': name,
-                'enabled': 'true' if enabled else 'false',
+                'enabled': enabled,
                 'entities': entities,
                 'condition_scope': condition_scope,
                 'terms': terms,
