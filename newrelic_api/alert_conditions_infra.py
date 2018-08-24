@@ -157,7 +157,7 @@ class AlertConditionsInfra(Resource):
         data['data']['type'] = condition_type
         data['data']['policy_id'] = policy_id
         data['data']['name'] = name
-        data['data']['enabled'] = 'true' if enabled else 'false'
+        data['data']['enabled'] = enabled
 
         return self._post(
             url='{0}alerts/conditions'.format(self.URL),
@@ -221,7 +221,7 @@ class AlertConditionsInfra(Resource):
         data['data']['type'] = condition_type
         data['data']['policy_id'] = policy_id
         data['data']['name'] = name
-        data['data']['enabled'] = 'true' if enabled else 'false'
+        data['data']['enabled'] = enabled
 
         return self._put(
             url='{0}alerts/conditions/{1}'.format(self.URL, alert_condition_infra_id),
