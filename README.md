@@ -17,7 +17,7 @@ progress.
 If you want to install it from source, grab the git repository and run setup.py:
 
 ```BASH
-git clone git://github.com/sansible/newrelic-api.git
+git clone git@github.com:sansible/newrelic-api.git
 cd newrelic-api
 python setup.py install
 ```
