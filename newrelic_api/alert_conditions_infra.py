@@ -59,7 +59,7 @@ class AlertConditionsInfra(Resource):
         filters = [
             'policy_id={0}'.format(policy_id),
             'limit={0}'.format(limit) if limit else '50',
-            'offset={0}'.format(offset) if limit else '0'
+            'offset={0}'.format(offset) if offset else '0'
         ]
 
         return self._get(
