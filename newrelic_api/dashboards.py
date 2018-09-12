@@ -147,7 +147,7 @@ class Dashboards(Resource):
             headers=self.headers,
         )
 
-    def create(self,dashboard_data):
+    def create(self, dashboard_data):
         """
         This API endpoint creates a dashboard and all defined widgets.
 
@@ -203,6 +203,69 @@ class Dashboards(Resource):
         """
         return self._post(
             url='{0}dashboards.json'.format(self.URL),
+            headers=self.headers,
+            data=dashboard_data,
+        )
+
+    def update(self, id, dashboard_data):
+        """
+        This API endpoint updates a dashboard and all defined widgets.
+
+        :type id: int
+        :param id: Dashboard ID
+
+        :type dashboard: dict
+        :param dashboard: Dashboard Dictionary
+
+        :rtype dict
+        :return: The JSON response of the API
+
+        ::
+            {
+                "dashboard": {
+                    "id": "integer",
+                    "title": "string",
+                    "description": "string",
+                    "icon": "string",
+                    "created_at": "time",
+                    "updated_at": "time",
+                    "visibility": "string",
+                    "editable": "string",
+                    "ui_url": "string",
+                    "api_url": "string",
+                    "owner_email": "string",
+                    "metadata": {
+                        "version": "integer"
+                    },
+                    "widgets": [
+                        {
+                            "visualization": "string",
+                            "layout": {
+                                "width": "integer",
+                                "height": "integer",
+                                "row": "integer",
+                                "column": "integer"
+                            },
+                            "widget_id": "integer",
+                            "account_id": "integer",
+                            "data": [
+                                "nrql": "string"
+                            ],
+                            "presentation": {
+                                "title": "string",
+                                "notes": "string"
+                            }
+                        }
+                    ],
+                    "filter": {
+                        "event_types": ["string"],
+                        "attributes": ["string"]
+                    }
+                }
+            }
+        """
+        return self._put(
+            url='{0}dashboards/{1}.json'.format(self.URL, id),
             headers=self.headers,
             data=dashboard_data,
         )
