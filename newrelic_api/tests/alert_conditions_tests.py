@@ -32,7 +32,8 @@ class NRAlertConditionsTests(TestCase):
                             "threshold": "90",
                             "time_function": "all"
                         }
-                    ]
+                    ],
+                    "runbook_url": "http://example.com/"
                 }
             ]
         }
@@ -56,7 +57,8 @@ class NRAlertConditionsTests(TestCase):
                         "threshold": "90",
                         "time_function": "all"
                     }
-                ]
+                ],
+                "runbook_url": "http://example.com/"
             }
         }
 
@@ -105,10 +107,11 @@ class NRAlertConditionsTests(TestCase):
             alert_condition_id=100,
             policy_id=1,
             name='New Name',
-            condition_type='servers_metric',
+            type='servers_metric',
             condition_scope='application',
             entities=['1234567'],
             metric='cpu_percentage',
+            runbook_url='http://example.com/',
             terms=[{
                 "duration": "5",
                 "operator": "above",
@@ -174,10 +177,11 @@ class NRAlertConditionsTests(TestCase):
         response = self.alert_conditions.create(
             policy_id=1,
             name='New Name',
-            condition_type='servers_metric',
+            type='servers_metric',
             condition_scope='application',
             entities=['1234567'],
             metric='cpu_percentage',
+            runbook_url='http://example.com/',
             terms=[{
                 "duration": "5",
                 "operator": "above",
