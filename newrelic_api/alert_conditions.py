@@ -73,11 +73,12 @@ class AlertConditions(Resource):
 
     def update(
             self, alert_condition_id, policy_id,
-            condition_type=None,
+            type=None,
             condition_scope=None,
             name=None,
             entities=None,
             metric=None,
+            runbook_url=None,
             terms=None,
             user_defined=None,
             enabled=None):
@@ -90,8 +91,8 @@ class AlertConditions(Resource):
         :type policy_id: int
         :param policy_id: Alert policy id where target alert condition belongs to
 
-        :type condition_type: str
-        :param condition_type: The type of the condition, can be apm_app_metric,
+        :type type: str
+        :param type: The type of the condition, can be apm_app_metric,
             apm_kt_metric, servers_metric, browser_metric, mobile_metric
 
         :type condition_scope: str
@@ -105,6 +106,9 @@ class AlertConditions(Resource):
 
         :type : str
         :param metric: The target metric
+
+        :type : str
+        :param runbook_url: The url of the runbook
 
         :type terms: list[hash]
         :param terms: list of hashes containing threshold config for the alert
@@ -173,13 +177,14 @@ class AlertConditions(Resource):
 
         data = {
             'condition': {
-                'type': condition_type or target_condition['type'],
+                'type': type or target_condition['type'],
                 'name': name or target_condition['name'],
                 'enabled': enabled if enabled is not None else target_condition['enabled'],
                 'entities': entities or target_condition['entities'],
                 'condition_scope': condition_scope or target_condition['condition_scope'],
                 'terms': terms or target_condition['terms'],
                 'metric': metric or target_condition['metric'],
+                'runbook_url': runbook_url or target_condition['runbook_url'],
             }
         }
 
@@ -209,12 +214,13 @@ class AlertConditions(Resource):
 
     def create(
             self, policy_id,
-            condition_type,
+            type,
             condition_scope,
             name,
             entities,
             metric,
             terms,
+            runbook_url=None,
             user_defined=None,
             enabled=True):
         """
@@ -223,8 +229,8 @@ class AlertConditions(Resource):
         :type policy_id: int
         :param policy_id: Alert policy id where target alert condition belongs to
 
-        :type condition_type: str
-        :param condition_type: The type of the condition, can be apm_app_metric,
+        :type type: str
+        :param type: The type of the condition, can be apm_app_metric,
             apm_kt_metric, servers_metric, browser_metric, mobile_metric
 
         :type condition_scope: str
@@ -238,6 +244,9 @@ class AlertConditions(Resource):
 
         :type : str
         :param metric: The target metric
+
+        :type : str
+        :param runbook_url: The url of the runbook
 
         :type terms: list[hash]
         :param terms: list of hashes containing threshold config for the alert
@@ -286,13 +295,14 @@ class AlertConditions(Resource):
 
         data = {
             'condition': {
-                'type': condition_type,
+                'type': type,
                 'name': name,
                 'enabled': enabled,
                 'entities': entities,
                 'condition_scope': condition_scope,
                 'terms': terms,
-                'metric': metric
+                'metric': metric,
+                'runbook_url': runbook_url,
             }
         }
 
