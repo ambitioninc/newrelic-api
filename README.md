@@ -14,7 +14,23 @@ progress.
 
 ## Installation
 
-If you want to install it from source, grab the git repository and run setup.py:
+### Pip
+
+This module has not been pushed to any repositories so installation from
+Git is the only option:
+
+```BASH
+# Direct
+pip install git+ssh://git@github.com/sansible/newrelic-api.git@vx.x.x
+# requirements file
+...
+git+ssh://git@github.com/sansible/newrelic-api.git@vx.x.x
+...
+```
+
+### Source
+
+If you want to install from source, grab the git repository and run setup.py:
 
 ```BASH
 git clone git@github.com:sansible/newrelic-api.git
