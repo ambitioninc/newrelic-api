@@ -175,7 +175,7 @@ class AlertConditions(Resource):
             }
 
         """
-        conditions_dict = self.list(policy_id)
+        conditions_dict = self.list_all(policy_id)
         target_condition = None
         for condition in conditions_dict['conditions']:
             if int(condition['id']) == alert_condition_id:
