@@ -2,11 +2,12 @@ PATH := $(PWD)/.venv/bin:$(shell printenv PATH)
 SHELL := env PATH=$(PATH) /bin/bash
 VENV_DIR=.venv
 
-## Destroy docker instances, remove virtualenv, molecule temp, .pyc files
 .PHONY: clean
+## Destroy docker instances, remove virtualenv, molecule temp, .pyc files
 clean:
 	rm -rf .venv
 
+.PHONY: deps
 ## Create virtualenv, install dependencies
 deps:
 	test -d ${VENV_DIR} || virtualenv ${VENV_DIR}
@@ -24,6 +25,8 @@ help:
 		 printf "\033[34m%-30s\033[0m\033[1m%s\033[0m %s\n\n", $$0, doc_h, doc; skip=1 }' \
 		$(MAKEFILE_LIST)
 
+.PHONY: test
 ## Run tests
 test: deps
+	flake8 newrelic_api
 	python setup.py nosetests

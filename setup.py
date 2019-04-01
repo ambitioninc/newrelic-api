@@ -1,3 +1,6 @@
+# import multiprocessing to avoid this bug (http://bugs.python.org/issue15881#msg170215)
+import multiprocessing
+assert multiprocessing
 import re
 from setuptools import setup, find_packages
 
@@ -15,11 +18,11 @@ def get_version():
 
 
 setup(
-    name='newrelic-api-sansible',
+    name='newrelic-api',
     version=get_version(),
     description='A python interface to the New Relic API v2',
-    long_description=open('README.md').read(),
-    url='https://github.com/sansible/newrelic-api',
+    long_description=open('README.rst').read(),
+    url='https://github.com/ambitioninc/newrelic-api',
     author='Micah Hausler',
     author_email='opensource@ambition.com',
     packages=find_packages(),

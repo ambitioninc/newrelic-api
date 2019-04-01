@@ -64,7 +64,7 @@ class AlertConditionsNRQL(Resource):
             params=self.build_param_string(filters)
         )
 
-    def update(
+    def update(  # noqa: C901
             self, alert_condition_nrql_id, policy_id, name=None, threshold_type=None, query=None,
             since_value=None, terms=None, expected_groups=None, value_function=None,
             runbook_url=None, ignore_overlap=None, enabled=True):
@@ -165,6 +165,7 @@ class AlertConditionsNRQL(Resource):
         data = {
             'nrql_condition': {
                 'type': threshold_type or target_condition_nrql['type'],
+                'enabled': target_condition_nrql['enabled'],
                 'name': name or target_condition_nrql['name'],
                 'terms': terms or target_condition_nrql['terms'],
                 'nrql': {
@@ -174,13 +175,8 @@ class AlertConditionsNRQL(Resource):
             }
         }
 
-        if enabled is None:
-            data['nrql_condition']['enabled'] = target_condition_nrql['enabled']
-        else:
-            if enabled:
-                data['nrql_condition']['enabled'] = 'true'
-            else:
-                data['nrql_condition']['enabled'] = 'false'
+        if enabled is not None:
+            data['nrql_condition']['enabled'] = str(enabled).lower()
 
         if runbook_url is not None:
             data['nrql_condition']['runbook_url'] = runbook_url
@@ -327,7 +323,6 @@ class AlertConditionsNRQL(Resource):
 
         if value_function is not None:
             data['nrql_condition']['value_function'] = value_function
-
 
         if data['nrql_condition']['type'] == 'static':
             if 'value_function' not in data['nrql_condition']:

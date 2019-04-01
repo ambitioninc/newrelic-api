@@ -179,7 +179,6 @@ class AlertConditions(Resource):
             'condition': {
                 'type': type or target_condition['type'],
                 'name': name or target_condition['name'],
-                'enabled': enabled if enabled is not None else target_condition['enabled'],
                 'entities': entities or target_condition['entities'],
                 'condition_scope': condition_scope or target_condition['condition_scope'],
                 'terms': terms or target_condition['terms'],
@@ -188,13 +187,8 @@ class AlertConditions(Resource):
             }
         }
 
-        if enabled is None:
-            data['condition']['enabled'] = target_condition['enabled']
-        else:
-            if enabled:
-                data['condition']['enabled'] = 'true'
-            else:
-                data['condition']['enabled'] = 'false'
+        if enabled is not None:
+            data['condition']['enabled'] = str(enabled).lower()
 
         if data['condition']['metric'] == 'user_defined':
             if user_defined:

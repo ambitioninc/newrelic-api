@@ -86,6 +86,21 @@ class NRAlertConditionsInfraInfraTests(TestCase):
             # Call the method
             self.alert_conditions_infra.list(policy_id=1)
 
+    @patch.object(requests, 'get')
+    def test_show_success(self, mock_get):
+        """
+        Test alert conditions .show()
+        """
+        mock_response = Mock(name='response')
+        mock_response.json.return_value = self.single_success_response
+        mock_get.return_value = mock_response
+
+        # Call the method
+        response = self.alert_conditions_infra.show(
+            alert_condition_infra_id=100
+        )
+
+        self.assertIsInstance(response, dict)
 
     @patch.object(requests, 'post')
     def test_create_success(self, mock_post):
@@ -103,7 +118,6 @@ class NRAlertConditionsInfraInfraTests(TestCase):
         )
 
         self.assertIsInstance(response, dict)
-
 
     @patch.object(requests, 'put')
     def test_update_success(self, mock_put):

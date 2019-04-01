@@ -6,6 +6,7 @@ import requests
 from newrelic_api.dashboards import Dashboards
 from newrelic_api.exceptions import NewRelicAPIServerException
 
+
 class NRDashboardsTests(TestCase):
     def setUp(self):
         super(NRDashboardsTests, self).setUp()
@@ -34,7 +35,7 @@ class NRDashboardsTests(TestCase):
         }
 
         self.single_success_response = {
-            'dashboard' : {
+            'dashboard': {
                 "id": 123456,
                 "title": "test-dashboard",
                 "description": "Test Dashboard",
@@ -97,7 +98,6 @@ class NRDashboardsTests(TestCase):
 
         self.assertIsInstance(response, dict)
 
-
     @patch.object(requests, 'get')
     def test_list_failure(self, mock_get):
         """
@@ -110,7 +110,6 @@ class NRDashboardsTests(TestCase):
         with self.assertRaises(ValueError):
             self.dashboards.list()
 
-    
     @patch.object(requests, 'get')
     def test_show_success(self, mock_get):
         """
@@ -124,7 +123,6 @@ class NRDashboardsTests(TestCase):
 
         self.assertIsInstance(response, dict)
 
-
     @patch.object(requests, 'get')
     def test_show_failure(self, mock_get):
         """
@@ -136,7 +134,6 @@ class NRDashboardsTests(TestCase):
 
         with self.assertRaises(ValueError):
             self.dashboards.show(123456)
-
 
     @patch.object(requests, 'delete')
     def test_delete_success(self, mock_delete):
@@ -151,7 +148,6 @@ class NRDashboardsTests(TestCase):
 
         self.assertIsInstance(response, dict)
 
-
     @patch.object(requests, 'delete')
     def test_delete_failure(self, mock_delete):
         """
@@ -164,7 +160,6 @@ class NRDashboardsTests(TestCase):
         with self.assertRaises(NewRelicAPIServerException):
             self.dashboards.delete(123456)
 
-
     @patch.object(requests, 'post')
     def test_create_success(self, mock_post):
         """
@@ -172,7 +167,7 @@ class NRDashboardsTests(TestCase):
         """
         mock_create_response = Mock(name='response')
         mock_create_response.json.return_value = self.single_success_response
-	mock_post.return_value = mock_create_response
+        mock_post.return_value = mock_create_response
 
         response = self.dashboards.create(
             {
@@ -215,13 +210,11 @@ class NRDashboardsTests(TestCase):
 
         self.assertIsInstance(response, dict)
 
-
     @patch.object(requests, 'post')
     def test_create_failure(self, mock_post):
         """
         Test dashboards .create() failure
         """
-
 
     @patch.object(requests, 'put')
     def test_update_success(self, mock_put):
@@ -249,7 +242,7 @@ class NRDashboardsTests(TestCase):
                             "layout": {
                                 "width": 1,
                                 "height": 1,
-                                "row": 1, 
+                                "row": 1,
                                 "column": 1
                             },
                             "account_id": 234567,
@@ -272,7 +265,6 @@ class NRDashboardsTests(TestCase):
             }
         )
         self.assertIsInstance(response, dict)
-
 
     @patch.object(requests, 'put')
     def test_update_failure(self, mock_put):
@@ -301,7 +293,7 @@ class NRDashboardsTests(TestCase):
                                 "layout": {
                                     "width": 1,
                                     "height": 1,
-                                    "row": 1, 
+                                    "row": 1,
                                     "column": 1
                                 },
                                 "account_id": 234567,
@@ -323,4 +315,3 @@ class NRDashboardsTests(TestCase):
                     }
                 }
             )
-

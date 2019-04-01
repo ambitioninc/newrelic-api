@@ -30,8 +30,9 @@ class NRAlertConditionsNRQLTests(TestCase):
                         }
                     ],
                     "nrql": {
-                        "query": "SELECT (average(`provider.httpCodeElb5XX.Sum`)/average(`provider.requestCount.Sum`) * 100) AS `5xx_percent` FROM LoadBalancerSample WHERE provider  = 'Elb' AND `label.account` LIKE 'smartshop-services-%' AND `label.role` = 'api_r10_client' AND `label.environment` = 'prf'",
-                        "since_value": "3"}
+                            "query": "SELECT something WHERE something  = 'somevalue'",
+                            "since_value": "3"
+                        }
                     }
                 ]
             }
@@ -53,8 +54,9 @@ class NRAlertConditionsNRQLTests(TestCase):
                     }
                 ],
                 "nrql": {
-                    "query": "SELECT (average(`provider.httpCodeElb5XX.Sum`)/average(`provider.requestCount.Sum`) * 100) AS `5xx_percent` FROM LoadBalancerSample WHERE provider  = 'Elb' AND `label.account` LIKE 'smartshop-services-%' AND `label.role` = 'api_r10_client' AND `label.environment` = 'prf'",
-                    "since_value": "3"}
+                        "query": "SELECT something WHERE something  = 'somevalue'",
+                        "since_value": "3"
+                    }
                 }
             }
 
@@ -104,7 +106,7 @@ class NRAlertConditionsNRQLTests(TestCase):
             policy_id=1,
             name='New Name',
             threshold_type='static',
-            query="SELECT (average(`provider.httpCodeElb5XX.Sum`)/average(`provider.requestCount.Sum`) * 100) AS `5xx_percent` FROM LoadBalancerSample WHERE provider  = 'Elb' AND `label.account` LIKE 'smartshop-services-%' AND `label.role` = 'api_r10_client' AND `label.environment` = 'prf'",
+            query="SELECT something WHERE something  = 'somevalue'",
             since_value='3',
             runbook_url='http://example.com/',
             value_function='single_value',
@@ -159,7 +161,6 @@ class NRAlertConditionsNRQLTests(TestCase):
                 policy_id=1
             )
 
-
     @patch.object(requests, 'post')
     def test_create_success(self, mock_post):
         """
@@ -174,7 +175,7 @@ class NRAlertConditionsNRQLTests(TestCase):
             policy_id=1,
             name='New Name',
             threshold_type='static',
-            query="SELECT (average(`provider.httpCodeElb5XX.Sum`)/average(`provider.requestCount.Sum`) * 100) AS `5xx_percent` FROM LoadBalancerSample WHERE provider  = 'Elb' AND `label.account` LIKE 'smartshop-services-%' AND `label.role` = 'api_r10_client' AND `label.environment` = 'prf'",
+            query="SELECT something WHERE something  = 'somevalue'",
             since_value='3',
             runbook_url='http://example.com/',
             value_function='single_value',

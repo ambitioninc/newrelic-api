@@ -163,7 +163,6 @@ class NRAlertPoliciesTests(TestCase):
             headers=self.policies.headers
         )
 
-
     @patch.object(requests, 'put')
     def test_dissociate_from_notification_channel(self, mock_put):
         """

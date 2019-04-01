@@ -1,5 +1,6 @@
 from .base import Resource
 
+
 class Dashboards(Resource):
     """
     An interface for interacting with the NewRelic dashboard API.
@@ -22,7 +23,7 @@ class Dashboards(Resource):
         ::
 
             {
-                "dashboards": [     
+                "dashboards": [
                     {
                         "id": "integer",
                         "title": "string",
@@ -38,7 +39,7 @@ class Dashboards(Resource):
                         "filter": {
                             "event_types": ["string"],
                             "attributes": ["string"]
-                        } 
+                        }
                     }
                 ],
                 "pages": {
@@ -138,7 +139,7 @@ class Dashboards(Resource):
         ::
             {
                 "dashboard": {
-                    "id": "integer" 
+                    "id": "integer"
                 }
             }
         """

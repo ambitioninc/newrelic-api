@@ -185,8 +185,6 @@ class AlertPolicies(Resource):
 
         """
 
-        data = 'policy_id={0}&channel_ids={1}'.format(id, channel_id)
-
         return self._put(
             url='{0}alerts_policy_channels.json?policy_id={1}&channel_ids={2}'.format(
                 self.URL,
@@ -225,8 +223,6 @@ class AlertPolicies(Resource):
             }
 
         """
-
-        data = 'policy_id={0}&channel_ids={1}'.format(id, channel_id)
 
         return self._delete(
             url='{0}alerts_policy_channels.json?policy_id={1}&channel_id={2}'.format(

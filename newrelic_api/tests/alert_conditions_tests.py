@@ -4,7 +4,7 @@ from mock import patch, Mock
 import requests
 
 from newrelic_api.alert_conditions import AlertConditions
-from newrelic_api.exceptions import NoEntityException
+from newrelic_api.exceptions import NoEntityException, ConfigurationException
 
 
 class NRAlertConditionsTests(TestCase):
@@ -102,7 +102,6 @@ class NRAlertConditionsTests(TestCase):
         mock_get.return_value = mock_list_response
         mock_put.return_value = mock_update_response
 
-        # Call the method
         response = self.alert_conditions.update(
             alert_condition_id=100,
             policy_id=1,
@@ -136,7 +135,19 @@ class NRAlertConditionsTests(TestCase):
         mock_get.return_value = mock_list_response
         mock_put.return_value = mock_update_response
 
-        # Call the method
+        with self.assertRaises(NoEntityException):
+            self.alert_conditions.update(
+                alert_condition_id=1000,
+                policy_id=1
+            )
+
+        with self.assertRaises(ConfigurationException):
+            self.alert_conditions.update(
+                alert_condition_id=100,
+                policy_id=1,
+                metric='user_defined'
+            )
+
         with self.assertRaises(ValueError):
             self.alert_conditions.update(
                 alert_condition_id=100,
@@ -162,7 +173,6 @@ class NRAlertConditionsTests(TestCase):
                 alert_condition_id=9999,
                 policy_id=1
             )
-
 
     @patch.object(requests, 'post')
     def test_create_success(self, mock_post):
