@@ -5,27 +5,14 @@ class AlertPolicies(Resource):
     """
     An interface for interacting with the NewRelic Alert Policies API.
     """
-    def list(
-            self, filter_name=None, filter_type=None, filter_ids=None,
-            filter_enabled=None, page=None):
+    def list(self, filter_name=None, page=None):
         """
         This API endpoint returns a paginated list of the alert policies
         associated with your New Relic account. Alert policies can be filtered
-        by their name, list of IDs, type (application, key_transaction, or
-        server) or whether or not policies are archived (defaults to filtering
-        archived policies).
+        by their name with exact match.
 
         :type filter_name: str
         :param filter_name: Filter by name
-
-        :type filter_type: list of str
-        :param filter_type: Filter by policy types.
-
-        :type filter_ids: list of int
-        :param filter_ids: Filter by policy IDs
-
-        :type filter_enabled: bool
-        :param filter_enabled: Select only enabled/disabled policies (default: both)
 
         :type page: int
         :param page: Pagination index
@@ -37,71 +24,38 @@ class AlertPolicies(Resource):
         ::
 
             {
-                "alert_policies": [
+                "policies": [
                     {
                         "id": "integer",
-                        "type": "string",
+                        "incident_preference": "string",
                         "name": "string",
-                        "enabled": "boolean",
-                        "conditions": [
-                            {
-                                "id": "integer",
-                                "type": "string",
-                                "severity": "string",
-                                "threshold": "float",
-                                "trigger_minutes": "integer",
-                                "enabled": "boolean"
-                            }
-                        ],
-                        "links": {
-                            "notification_channels": [
-                                "integer"
-                            ],
-                            "applications": [
-                                "integer"
-                            ],
-                            "key_transactions": [
-                                "integer"
-                            ],
-                            "servers": [
-                                "integer"
-                            ]
-                        }
-                    }
-                ],
-                "pages": {
-                    "last": {
-                        "url": "https://api.newrelic.com/v2/alert_policies.json?page=2",
-                        "rel": "last"
+                        "created_at": "integer",
                     },
-                    "next": {
-                        "url": "https://api.newrelic.com/v2/alert_policies.json?page=2",
-                        "rel": "next"
-                    }
-                }
+                ]
             }
 
         """
         filters = [
             'filter[name]={0}'.format(filter_name) if filter_name else None,
-            'filter[type]={0}'.format(','.join(filter_type)) if filter_type else None,
-            'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
-            'filter[enabled]={0}'.format(filter_enabled) if filter_enabled in [True, False] else None,
             'page={0}'.format(page) if page else None
         ]
 
         return self._get(
-            url='{0}alert_policies.json'.format(self.URL),
+            url='{0}alerts_policies.json'.format(self.URL),
             headers=self.headers,
             params=self.build_param_string(filters)
         )
 
-    def show(self, id):
+    def create(self, name, incident_preference):
         """
-        This API endpoint returns a single alert policy, identified by ID.
+        This API endpoint allows you to create an alert policy
 
-        :type id: int
-        :param id: Alert policy ID
+        :type name: str
+        :param name: The name of the policy
+
+        :type incident_preference: str
+        :param incident_preference: Can be PER_POLICY, PER_CONDITION or
+            PER_CONDITION_AND_TARGET
 
         :rtype: dict
         :return: The JSON response of the API
@@ -109,90 +63,43 @@ class AlertPolicies(Resource):
         ::
 
             {
-                "alert_policy": {
+                "policy": {
+                    "created_at": "time",
                     "id": "integer",
-                    "type": "string",
+                    "incident_preference": "string",
                     "name": "string",
-                    "enabled": "boolean",
-                    "conditions": [
-                        {
-                            "id": "integer",
-                            "type": "string",
-                            "severity": "string",
-                            "threshold": "float",
-                            "trigger_minutes": "integer",
-                            "enabled": "boolean"
-                        }
-                    ],
-                    "links": {
-                        "notification_channels": [
-                            "integer"
-                        ],
-                        "applications": [
-                            "integer"
-                        ],
-                        "key_transactions": [
-                            "integer"
-                        ],
-                        "servers": [
-                            "integer"
-                        ]
-                    }
+                    "updated_at": "time"
                 }
             }
 
         """
-        return self._get(
-            url='{0}alert_policies/{1}.json'.format(self.URL, id),
+
+        data = {
+            "policy": {
+                "name": name,
+                "incident_preference": incident_preference
+            }
+        }
+
+        return self._post(
+            url='{0}alerts_policies.json'.format(self.URL),
             headers=self.headers,
+            data=data
         )
 
-    def update(self, id, policy_update):
+    def update(self, id, name, incident_preference):
         """
-        This API endpoint allows you to update your alert policies.
+        This API endpoint allows you to update an alert policy
 
-        The input is expected to be in **JSON** format in the body
-        parameters of the PUT request. The exact schema is defined below. Any
-        extra parameters passed in the body **will be ignored** .::
+        :type id: integer
+        :param id: The id of the policy
 
-            {
-                "alert_policy": {
-                    "name": str,
-                    "enabled": bool,
-                    "conditions": [
-                        {
-                            "id": int,
-                            "threshold": float,
-                            "trigger_minutes": int,
-                            "enabled": bool
-                        }
-                    ],
-                    "links": {
-                        "notification_channels": [
-                            int
-                        ],
-                        "applications": [
-                            int
-                        ],
-                        "key_transactions": [
-                            "int
-                        ],
-                        "servers": [
-                            int
-                        ]
-                    }
-                }
-            }
+        :type name: str
+        :param name: The name of the policy
 
-        **NOTE:** When updating alertable and notification channel links, the
-        list sent replaces the existing list. Invalid values will be ignored
-        but an empty array will result in alertables/channels being reset.
-
-        :type id: int
-        :param id: Alert policy ID
-
-        :type policy_update: dict
-        :param policy_update: The json of the policy to update
+        :type incident_preference: str
+        :param incident_preference: Can be PER_POLICY, PER_CONDITION or
+            PER_CONDITION_AND_TARGET
 
         :rtype: dict
         :return: The JSON response of the API
@@ -200,41 +107,128 @@ class AlertPolicies(Resource):
         ::
 
             {
-                "alert_policy": {
+                "policy": {
+                    "created_at": "time",
                     "id": "integer",
-                    "type": "string",
+                    "incident_preference": "string",
                     "name": "string",
-                    "enabled": "boolean",
-                    "conditions": [
-                        {
-                            "id": "integer",
-                            "type": "string",
-                            "severity": "string",
-                            "threshold": "float",
-                            "trigger_minutes": "integer",
-                            "enabled": "boolean"
-                        }
-                    ],
-                    "links": {
-                        "notification_channels": [
-                            "integer"
-                        ],
-                        "applications": [
-                            "integer"
-                        ],
-                        "key_transactions": [
-                            "integer"
-                        ],
-                        "servers": [
-                            "integer"
-                        ]
-                    }
+                    "updated_at": "time"
                 }
             }
 
         """
+
+        data = {
+            "policy": {
+                "name": name,
+                "incident_preference": incident_preference
+            }
+        }
+
         return self._put(
-            url='{0}alert_policies/{1}.json'.format(self.URL, id),
+            url='{0}alerts_policies/{1}.json'.format(self.URL, id),
             headers=self.headers,
-            data=policy_update
+            data=data
+        )
+
+    def delete(self, id):
+        """
+        This API endpoint allows you to delete an alert policy
+
+        :type id: integer
+        :param id: The id of the policy
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "policy": {
+                    "created_at": "time",
+                    "id": "integer",
+                    "incident_preference": "string",
+                    "name": "string",
+                    "updated_at": "time"
+                }
+            }
+
+        """
+
+        return self._delete(
+            url='{0}alerts_policies/{1}.json'.format(self.URL, id),
+            headers=self.headers
+        )
+
+    def associate_with_notification_channel(self, id, channel_id):
+        """
+        This API endpoint allows you to associate an alert policy with an
+            notification channel
+
+        :type id: integer
+        :param id: The id of the policy
+
+        :type channel_id: integer
+        :param channel_id: The id of the notification channel
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "policy": {
+                    "channel_ids": "list",
+                    "id": "integer"
+                }
+            }
+
+        """
+
+        return self._put(
+            url='{0}alerts_policy_channels.json?policy_id={1}&channel_ids={2}'.format(
+                self.URL,
+                id,
+                channel_id
+            ),
+            headers=self.headers
+        )
+
+    def dissociate_from_notification_channel(self, id, channel_id):
+        """
+        This API endpoint allows you to dissociate an alert policy from an
+            notification channel
+
+        :type id: integer
+        :param id: The id of the policy
+
+        :type channel_id: integer
+        :param channel_id: The id of the notification channel
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+               "channel":{
+                  "configuration": "hash",
+                  "type": "string",
+                  "id": "integer",
+                  "links":{
+                     "policy_ids": "list"
+                  },
+                  "name": "string"
+               }
+            }
+
+        """
+
+        return self._delete(
+            url='{0}alerts_policy_channels.json?policy_id={1}&channel_id={2}'.format(
+                self.URL,
+                id,
+                channel_id
+            ),
+            headers=self.headers
         )

@@ -10,3 +10,10 @@ class NewRelicAPIServerException(Exception):
     An exception for New Relic server errors
     """
     message = 'There was an error from New Relic'
+
+
+class NoEntityException(Exception):
+    """
+    An exception for operation to no existed entities
+    """
+    message = 'No entity exists'
