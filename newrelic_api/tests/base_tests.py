@@ -1,5 +1,4 @@
 import os
-from datetime import time
 from unittest import TestCase
 
 from mock import patch, call, Mock
@@ -250,7 +249,6 @@ class ResourceTests(TestCase):
             0,
             [],
             {},
-            time(0)
         ]
 
         param_str = resource.build_param_string(test_params)
