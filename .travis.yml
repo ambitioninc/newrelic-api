@@ -1,14 +1,21 @@
-sudo: false
+---
+
+sudo: required
+dist: xenial
+
 language: python
 python:
   - '2.7'
-  - '3.3'
-  - '3.4'
-install:
-  - pip install coveralls nose flake8
-  - python setup.py install
+  - '3.6'
+  - '3.7'
+
+branches:
+  only:
+    - develop
+    - master
+
 script:
-  - flake8 .
-  - python setup.py nosetests
+  - make test
+
 after_success:
   coveralls

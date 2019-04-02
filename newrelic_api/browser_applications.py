@@ -8,10 +8,10 @@ class BrowserApplications(Resource):
     def list(self, filter_name=None, filter_ids=None, page=None):
         """
         This API endpoint returns a list of the Browser Applications associated
-            with your New Relic account.
+        with your New Relic account.
 
         Browser Applications can be filtered by their name, or by the
-            application IDs.
+        application IDs.
 
         :type filter_name: str
         :param filter_name: Filter by application name

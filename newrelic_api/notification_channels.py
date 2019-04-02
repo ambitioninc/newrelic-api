@@ -5,18 +5,10 @@ class NotificationChannels(Resource):
     """
     An interface for interacting with the NewRelic Notification Channels API.
     """
-    def list(self, filter_type=None, filter_ids=None, page=None):
+    def list(self, page=None):
         """
         This API endpoint returns a paginated list of the notification channels
         associated with your New Relic account.
-
-        Notification channels can be filtered by their type or a list of IDs.
-
-        :type filter_type: list of str
-        :param filter_type: Filter by notification channel types
-
-        :type filter_ids: list of int
-        :param filter_ids: Filter by notification channel ids
 
         :type page: int
         :param page: Pagination index
@@ -26,28 +18,88 @@ class NotificationChannels(Resource):
             if there are paginated results
         """
         filters = [
-            'filter[type]={0}'.format(','.join(filter_type)) if filter_type else None,
-            'filter[ids]={0}'.format(','.join([str(app_id) for app_id in filter_ids])) if filter_ids else None,
             'page={0}'.format(page) if page else None
         ]
         return self._get(
-            url='{0}notification_channels.json'.format(self.URL),
+            url='{0}alerts_channels.json'.format(self.URL),
             headers=self.headers,
             params=self.build_param_string(filters)
         )
 
-    def show(self, id):
+    def create(self, name, type, configuration):
         """
-        This API endpoint returns a single notification channel, identified by
-        ID.
+        This API endpoint allows you to create a notification channel, see
+            New Relic API docs for details of types and configuration
 
-        :type id: int
-        :param id: notification channel ID
+        :type name: str
+        :param name: The name of the channel
+
+        :type type: str
+        :param type: Type of notification, eg. email, user, webhook
+
+        :type configuration: hash
+        :param configuration: Configuration for notification
 
         :rtype: dict
         :return: The JSON response of the API
+
+        ::
+
+            {
+                "channels": {
+                     "id": "integer",
+                     "name": "string",
+                     "type": "string",
+                     "configuration": { },
+                     "links": {
+                        "policy_ids": []
+                    }
+                }
+            }
+
         """
-        return self._get(
-            url='{0}notification_channels/{1}.json'.format(self.URL, id),
+
+        data = {
+            "channel": {
+                "name": name,
+                "type": type,
+                "configuration": configuration
+            }
+        }
+
+        return self._post(
+            url='{0}alerts_channels.json'.format(self.URL),
             headers=self.headers,
+            data=data
+        )
+
+    def delete(self, id):
+        """
+        This API endpoint allows you to delete a notification channel
+
+        :type id: integer
+        :param id: The id of the channel
+
+        :rtype: dict
+        :return: The JSON response of the API
+
+        ::
+
+            {
+                "channels": {
+                     "id": "integer",
+                     "name": "string",
+                     "type": "string",
+                     "configuration": { },
+                     "links": {
+                        "policy_ids": []
+                    }
+                }
+            }
+
+        """
+
+        return self._delete(
+            url='{0}alerts_channels/{1}.json'.format(self.URL, id),
+            headers=self.headers
         )

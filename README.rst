@@ -5,11 +5,11 @@
     :target: https://coveralls.io/r/ambitioninc/newrelic-api?branch=develop
 
 .. image:: https://pypip.in/v/newrelic-api/badge.png
-    :target: https://crate.io/packages/newrelic-api/
+    :target: https://pypi.python.org/pypi/newrelic-api
     :alt: Latest PyPI version
 
 .. image:: https://pypip.in/d/newrelic-api/badge.png
-    :target: https://crate.io/packages/newrelic-api/
+    :target: https://pypi.python.org/pypi/newrelic-api
     :alt: Number of PyPI downloads
 
 newrelic-api: A Python interface to New Relic's API
