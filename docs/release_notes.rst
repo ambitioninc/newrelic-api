@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+v1.0.6
+------
+
+* Makes a start on supporting the latest New Relic APIs
+* Adds support for Alert Conditions
+* Adds support NRQL Alerts
+* Updates/fixes for V2 Alert policies
+* Adds support for Notification Channels
+
 v1.0.4
 ------
 

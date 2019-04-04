@@ -21,6 +21,14 @@ concise, pythonic way. For full documentation on each endpoint, please see
 
 .. _New Relic's API explorer: https://rpm.newrelic.com/api/explore/
 
+Project status
+==============
+
+This client is out of sync with the latest changes to New Relic's APIs, work
+is under way to update this project and bring it up to date. If you need to
+use an NR resource that is not supported or is out of date then please submit
+a PR.
+
 Installation
 ============
 
