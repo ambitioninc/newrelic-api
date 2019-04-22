@@ -4,11 +4,11 @@
 .. image:: https://coveralls.io/repos/ambitioninc/newrelic-api/badge.png?branch=develop
     :target: https://coveralls.io/r/ambitioninc/newrelic-api?branch=develop
 
-.. image:: https://pypip.in/v/newrelic-api/badge.png
+.. image:: https://img.shields.io/pypi/v/newrelic-api.svg
     :target: https://pypi.python.org/pypi/newrelic-api
     :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/newrelic-api/badge.png
+.. image:: https://img.shields.io/pypi/dm/newrelic-api.svg
     :target: https://pypi.python.org/pypi/newrelic-api
     :alt: Number of PyPI downloads
 
