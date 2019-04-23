@@ -71,6 +71,19 @@ class AlertConditions(Resource):
             params=self.build_param_string(filters)
         )
 
+    def list_all(self, policy_id):
+        condition_list = []
+        cur_page_num = 1
+        next_page_definition = 'placeholder'
+        while next_page_definition is not None:
+            cur_page = self.list(policy_id, page=cur_page_num)
+            condition_list = condition_list + cur_page['conditions']
+
+            next_page_definition = cur_page.get('pages', {}).get('next', None)
+            cur_page_num = cur_page_num + 1
+
+        return {'conditions': condition_list}
+
     def update(
             self, alert_condition_id, policy_id,
             type=None,
@@ -162,7 +175,7 @@ class AlertConditions(Resource):
             }
 
         """
-        conditions_dict = self.list(policy_id)
+        conditions_dict = self.list_all(policy_id)
         target_condition = None
         for condition in conditions_dict['conditions']:
             if int(condition['id']) == alert_condition_id:
