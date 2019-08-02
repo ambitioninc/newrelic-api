@@ -42,6 +42,7 @@ class AlertConditions(Resource):
                         ],
                         "metric": "string",
                         "runbook_url": "string",
+                        "violation_close_timer": integer,
                         "terms": [
                             {
                                 "duration": "string",
@@ -81,6 +82,7 @@ class AlertConditions(Resource):
             runbook_url=None,
             terms=None,
             user_defined=None,
+            violation_close_timer=None,
             enabled=None):
         """
         Updates any of the optional parameters of the alert condition
@@ -117,6 +119,10 @@ class AlertConditions(Resource):
         :param user_defined: hash containing threshold user_defined for the alert
             required if metric is set to user_defined
 
+        :type violation_close_timer: int
+        :param violation_close_timer: Use to automatically close instance-based
+            violations, including JVM health metric violations, after the number of hours specified
+
         :type enabled: bool
         :param enabled: Whether to enable that alert condition
 
@@ -145,6 +151,7 @@ class AlertConditions(Resource):
                     ],
                     "metric": "string",
                     "runbook_url": "string",
+                    "violation_close_timer": integer,
                     "terms": [
                         {
                             "duration": "string",
@@ -180,10 +187,11 @@ class AlertConditions(Resource):
                 'type': type or target_condition['type'],
                 'name': name or target_condition['name'],
                 'entities': entities or target_condition['entities'],
-                'condition_scope': condition_scope or target_condition['condition_scope'],
+                'condition_scope': condition_scope or target_condition.get('condition_scope'),
                 'terms': terms or target_condition['terms'],
                 'metric': metric or target_condition['metric'],
-                'runbook_url': runbook_url or target_condition['runbook_url'],
+                'runbook_url': runbook_url or target_condition.get('runbook_url'),
+                'violation_close_timer': violation_close_timer or target_condition.get('violation_close_timer'),
             }
         }
 
@@ -209,13 +217,14 @@ class AlertConditions(Resource):
     def create(
             self, policy_id,
             type,
-            condition_scope,
             name,
             entities,
             metric,
             terms,
+            condition_scope=None,
             runbook_url=None,
             user_defined=None,
+            violation_close_timer=None,
             enabled=True):
         """
         Creates an alert condition
@@ -227,9 +236,6 @@ class AlertConditions(Resource):
         :param type: The type of the condition, can be apm_app_metric,
             apm_kt_metric, servers_metric, browser_metric, mobile_metric
 
-        :type condition_scope: str
-        :param condition_scope: The scope of the condition, can be instance or application
-
         :type name: str
         :param name: The name of the server
 
@@ -238,6 +244,9 @@ class AlertConditions(Resource):
 
         :type : str
         :param metric: The target metric
+
+        :type condition_scope: str
+        :param condition_scope: The scope of the condition, can be instance or application
 
         :type : str
         :param runbook_url: The url of the runbook
@@ -248,6 +257,10 @@ class AlertConditions(Resource):
         :type user_defined: hash
         :param user_defined: hash containing threshold user_defined for the alert
             required if metric is set to user_defined
+
+        :type violation_close_timer: int
+        :param violation_close_timer: Use to automatically close instance-based
+            violations, including JVM health metric violations, after the number of hours specified
 
         :type enabled: bool
         :param enabled: Whether to enable that alert condition
@@ -269,6 +282,7 @@ class AlertConditions(Resource):
                     ],
                     "metric": "string",
                     "runbook_url": "string",
+                    "violation_close_timer": integer,
                     "terms": [
                         {
                             "duration": "string",
@@ -297,6 +311,7 @@ class AlertConditions(Resource):
                 'terms': terms,
                 'metric': metric,
                 'runbook_url': runbook_url,
+                'violation_close_timer': violation_close_timer
             }
         }
 
@@ -338,6 +353,7 @@ class AlertConditions(Resource):
                     ],
                     "metric": "string",
                     "runbook_url": "string",
+                    "violation_close_timer": integer,
                     "terms": [
                         {
                             "duration": "string",
