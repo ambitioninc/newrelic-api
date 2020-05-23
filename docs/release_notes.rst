@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v1.0.7
+------
+
+* Adds support for Application Deployment Markers
+* Changed version of Sphinx in docs requirements
+
 v1.0.6
 ------
 

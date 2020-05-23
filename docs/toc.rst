@@ -10,6 +10,7 @@ Table of Contents
    examples
    ref/alert_policies
    ref/applications
+   ref/application_deployments
    ref/application_hosts
    ref/application_instances
    ref/browser_applications
