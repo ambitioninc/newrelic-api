@@ -12,6 +12,7 @@ Currently Supported Resources
 
 * Alert Policies (:doc:`API Reference <ref/alert_policies>`)
 * Applications (:doc:`API Reference <ref/applications>`)
+* Application Deployments (:doc:`API Reference <ref/application_deployments>`)
 * Application Hosts (:doc:`API Reference <ref/application_hosts>`)
 * Application Instances (:doc:`API Reference <ref/application_instances>`)
 * Browser Applications (:doc:`API Reference <ref/browser_applications>`)

@@ -91,15 +91,10 @@ class ApplicationDeployments(Resource):
         :param timestamp: When the deployment occurred, down to the second.
             If not specified, the deployment will be recorded at the time
             when the API call was received.
-            
             Timestamp requirements:
-            
-            Must be in UTC time.
-            
-            Must be after the most recent deployment timestamp.
-            
-            Cannot be in the future.
-            
+            Must be in UTC time,
+            Must be after the most recent deployment timestamp,
+            Cannot be in the future,
             Must be in ISO8601 format; for example, "2019-10-08T00:15:36Z"
 
         :rtype: dict
