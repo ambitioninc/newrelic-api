@@ -67,8 +67,8 @@ class NRAlertViolationsTests(TestCase):
 
         # Call the method
         response = self.violation.list(
-            filter_start_date=datetime.datetime(2000, 1, 1, 12, 0, 0, 0),
-            filter_end_date=datetime.datetime(2010, 1, 1, 12, 0, 0, 0),
+            filter_start_date=datetime.datetime(2000, 1, 1, 12, 0, 0, 0, tzinfo=datetime.timezone.utc),
+            filter_end_date=datetime.datetime(2010, 1, 1, 12, 0, 0, 0, tzinfo=datetime.timezone.utc),
             filter_only_open=True,
             page=1
         )
