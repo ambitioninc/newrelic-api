@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+v1.0.7
+------
+
+* Read the docs config v2
+
 v1.0.6
 ------
 
